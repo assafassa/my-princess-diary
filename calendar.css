@@ -1,0 +1,174 @@
+body{
+    background-color: rgb(186, 189, 255);
+    font-family:cursive;
+    font-size: 12px;
+}
+.headbord{
+    height:100px; 
+    background-color: transparent;
+    margin-left: 22px;
+    margin-right: 22px;
+}
+.my-princess-diary{
+    font-size: 40px;
+    text-align: center;
+    color: rgb(22, 117, 114);
+    font-weight: bold;
+}
+.week-board{
+    display: flex;
+}
+.next-week{
+    display: flex;
+
+}
+.weekday{
+    background-color: rgb(215, 211, 252);
+    border: 5px;
+    margin:2px;
+    padding: 5px;
+    border-style: solid;
+    border-color: rgb(133, 126, 195);
+    display: -moz-grid-group;
+    grid-template-rows: 30px 65px 65px 300px ;
+}
+.to-do-list{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.recurrence{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.day-of-week-none{
+    color:transparent;
+    font-weight: bold;
+    text-align: center;
+    font-size: 17px;
+}
+.day-of-week{
+    color:rgb(22, 117, 114) ;
+    font-weight: bold;
+    text-align: center;
+    font-size: 17px;
+}
+.show-date{
+    font-weight:bold;
+    text-align: center;
+}
+.arrow-image{
+    width:20px;
+    height: 20px;
+    align-self: center;
+}
+.event-window{
+    display: grid;
+    width: 130px;
+    padding: 10px;
+    font-weight: bold;
+    color:rgb(79, 73, 135);
+}
+.js-input{
+    width: 100px;
+    font-family: cursive;
+    font-size: 12px;
+    background-color: rgb(215, 211, 252);
+    color: black;
+    border:none;
+    cursor:-webkit-grab;
+    height: 30px;
+}
+.name-input{
+    height: 100px;
+}
+.with-input{
+    height: 60px;
+}
+
+.checkbox{
+    cursor: pointer;
+    height: 12px;
+}
+.rimage{
+    height: 15px;
+}
+.if-missing{
+    width:100px;
+    color:rgb(176, 1, 1);
+}
+.highlight-1{
+    background-color: rgb(181, 224, 248);
+}
+.highlight-2{
+    background-color: rgba(248, 165, 220, 0.548);
+}
+.highlight-3{
+    background-color: rgba(165, 248, 189, 0.619); 
+}
+.highlight-4{
+    background-color: rgba(248, 248, 181, 0.536);
+}
+.highlight-5{
+    background-color: rgb(226, 181, 248);
+}
+.update-event{
+    background-color:rgb(215, 211, 252) ;
+    display:flex;
+    justify-content: space-between;
+}
+.delete{
+    font-size: 10px;
+    color: blueviolet;
+    margin-right: 5px;
+    text-align: left;
+    cursor: pointer;
+}
+.rdelete{
+    font-size: 10px;
+    color: blueviolet;
+    margin-right: 5px;
+    text-align: left;
+    cursor: pointer; 
+}
+.edit{
+    font-size: 10px;
+    color: blueviolet; 
+    text-align: right;
+    cursor: pointer;
+}
+.update-event-button{
+    background-color: rgb(133, 126, 195);
+    color:rgb(215, 211, 252) ;
+    border: none;
+    font-family: cursive;
+    cursor: pointer;
+    width: 104px;
+}
+.nav-bar{
+    margin-top: 15px;
+   color: rgb(133, 126, 195); 
+   font-size: 16px;
+   font-weight: bold;
+   display: grid;
+   grid-template-rows: 25px ;
+   grid-template-columns: 40px 200px 150px 110px 50px ;
+   
+}
+.homebutton{
+    height: 25px;
+    cursor: pointer;
+
+}
+.gotodatebutton{
+    background-color: rgb(133, 126, 195);
+    color: rgb(215, 211, 252);
+    cursor: pointer;
+    width: 30px;
+    text-align: center;
+    border-radius: 10px;
+    margin-left: 3px;
+    height: 25px;
+    font-size: 16px;
+}

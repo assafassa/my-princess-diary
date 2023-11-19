@@ -29,15 +29,14 @@ export function sortEvents(a,b){
 
 }
 function isRepeatDate(repeatList,date1,date2){
-    console.log(date1,date2)
     if (date1==date2){
         return(false)
     }
-    let day1=dayjs(date1)
-    let day2=dayjs(date2)
-    while (day1.isBefore(day2)){
-        day1=day1.add(repeatList[0],repeatList[1])
-        if (turndaytoid(day1)==turndaytoid(day2)){
+    if (dayjs(date1).isBefore(dayjs(date2))){
+        let diffrence=dayjs(date2).diff(date1,repeatList[1],true)
+        let check=diffrence/Number(repeatList[0])
+        console.log(date1,date2,repeatList,check,diffrence)
+        if (check!==0 &&check==check.toFixed(0)){
             return(true);
         }
     }
@@ -183,7 +182,7 @@ function indays (idday){
 export function renderToDoFromEvents(date){
     let dayListHTML=''
     myEvents.forEach((someEvent)=>{
-        if(someEvent.date===date ){
+        if(someEvent.date===date ||((someEvent.repeatList)[0]!=0 && isRepeatDate(someEvent.repeatList,someEvent.date,date))){
             let {date, hourStart,name,howLongminutes,withWhom}=someEvent
             if (name!='Birthday'){
                 let timestamp=date+' '+hourStart
@@ -213,7 +212,7 @@ myEvents.forEach((someEvent)=>{
 export function renderremindersFromEvents(date){
     let dayListHTML='<p>Reminders:</p>'
     myEvents.forEach((someEvent)=>{
-        if(someEvent.reminddate==date){
+        if(someEvent.reminddate==date || ifreminderepeat(someEvent.repeatList,someEvent.reminddate,date,someEvent.name)){
             let {date, hourStart,name,withWhom,reminddaybefore}=someEvent
             let timestamp=date+' '+hourStart
             if (name=='Birthday'){
@@ -243,6 +242,18 @@ export function renderremindersFromEvents(date){
     
 }
 
+function ifreminderepeat(repeatList,date1,date2,name){
+    if (repeatList[0]!=0){
+        if(isRepeatDate(repeatList,date1,date2)){
+            return(true)
+        }
+    }else if (name=='Birthday'){
+        if (isRepeatDate([1,'year'],date1,date2)){
+            return(true)
+        }
+    }
+    return(false)
+}
 /*
 || 
             ((someEvent.repeatList)[0]!==0 && isRepeatDate(someEvent.repeatList,someEvent.reminddate,date))||
@@ -317,4 +328,4 @@ updateThisWeek ()
 renderInputWindow()
 
 //monthly
-
+console.log('0'!=0)

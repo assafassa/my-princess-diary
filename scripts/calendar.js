@@ -3,6 +3,7 @@ import { deleteEvent ,addEvent,editEvent,deletereminder, checkedevent} from "../
 import {renderthisweek} from './calendarScript/weekly.js'
 import { renderNavBar } from './calendarScript/navbar.js';
 import { renderthismonth } from './calendarScript/monthly.js';
+import { turndaytoid } from './calendarScript/utils.js';
 
 export let today=dayjs()
 export let day=dayjs()
@@ -27,26 +28,42 @@ let idtoday=today.format('YYYY-MM-DD')
 
 //weekly
 
-function renderWebsiteWeek (){
-    let weekDayHTML=renderthisweek()
+function renderWebsite (){
+    if (monthOrWeek==1){
+        document.querySelector(".monthly").innerHTML=renderthismonth()
+    }else if (monthOrWeek==0){
+        document.querySelector(".next-week").innerHTML=renderthisweek()
+    }
+    
     //interactive things to render thepage
     //left Arrow
-    document.querySelector(".next-week").innerHTML=weekDayHTML
     document.querySelector('.left-arrow')
         .addEventListener('click',()=>{
-            day=day.subtract(7,'day')
+            if (monthOrWeek==0){
+                day=day.subtract(7,'day')
+            }else if (monthOrWeek==1){
+                day=day.subtract(32,'day')
+            }
             monthformat=day.format('MMMM, YYYY')
+            monthDays=day.daysInMonth()
+            monthId=day.format('YYYY-MM')
             renderNavBar()
-            renderWebsiteWeek()
+            renderWebsite()
         })
     
     //right Arrow
     document.querySelector('.right-arrow')
         .addEventListener('click',()=>{
-            day=day.add(7,'day')
+            if (monthOrWeek==0){
+                day=day.add(7,'day')
+            }else if (monthOrWeek==1){
+                day=day.add(32,'day')
+            }
             monthformat=day.format('MMMM, YYYY')
+            monthDays=day.daysInMonth()
+            monthId=day.format('YYYY-MM')
             renderNavBar()
-            renderWebsiteWeek()
+            renderWebsite()
             
         }) 
 
@@ -55,7 +72,7 @@ function renderWebsiteWeek (){
         button.addEventListener('click',()=>{
             deleteEvent(button.id)
             
-            renderWebsiteWeek()
+            renderWebsite()
         })
     })
     //edit event
@@ -66,7 +83,7 @@ function renderWebsiteWeek (){
             
             deleteEvent(button.id)
             
-            renderWebsiteWeek()
+            renderWebsite()
             
         })
     })
@@ -75,13 +92,12 @@ function renderWebsiteWeek (){
     document.querySelectorAll(".checkbox").forEach((checkbutton)=>{
         checkbutton.addEventListener('click',()=>{
             checkedevent(checkbutton.id)
-            renderWebsiteWeek()
             if (checkbutton.checked==false){
                 checkbutton.checked=true
             }else{
                 checkbutton.checked=false
             }
-            
+            renderWebsite()
         })
     })
     //delete reminder
@@ -89,129 +105,48 @@ function renderWebsiteWeek (){
         button.addEventListener('click',()=>{
             deletereminder(button.id)
 
-            renderWebsiteWeek()
+            renderWebsite()
         })
     })
     //home button
     document.querySelector(".homebutton").addEventListener('click',()=>{
-        day=today
-        monthformat=day.format('MMMM, YYYY')
-        renderNavBar()
-        renderWebsiteWeek()
+        if (turndaytoid(day)!=turndaytoid(today)){
+            day=today
+            monthformat=day.format('MMMM, YYYY')
+            monthDays=day.daysInMonth()
+            monthId=day.format('YYYY-MM')
+            renderNavBar()
+            renderWebsite()
+        }
     })
     //go to date
     document.querySelector(".gotodatebutton").addEventListener('click',()=>{
         goToDate()
-        renderWebsiteWeek()
+        renderWebsite()
     })
     //monthly
     document.querySelector(".monthlybutton").addEventListener('click',()=>{
         if (monthOrWeek==0){
-        document.querySelector(".content").innerHTML=''
-        monthOrWeek=1
-        document.querySelector(".content").classList.remove("next-week")
-        document.querySelector(".content").classList.add("monthly")
-        renderWebsiteMonth()
+            document.querySelector(".content").innerHTML=''
+            monthOrWeek=1
+            document.querySelector(".content").classList.remove("next-week")
+            document.querySelector(".content").classList.add("monthly")
+            renderWebsite()
+        }
+    })
+
+    //weekly
+    document.querySelector(".weeklybutton").addEventListener('click',()=>{
+        if (monthOrWeek==1){
+            document.querySelector(".content").innerHTML=''
+            document.querySelector(".content").classList.remove("monthly")
+            document.querySelector(".content").classList.add("next-week")
+            monthOrWeek=0
+            renderWebsite()
         }
     })
     
 }
-
-function renderWebsiteMonth (){
-    let monthlyHTML=renderthismonth()
-    //interactive things to render thepage
-    //left Arrow
-    document.querySelector(".monthly").innerHTML=monthlyHTML
-    document.querySelector('.left-arrow')
-        .addEventListener('click',()=>{
-            day=day.subtract(32,'day')
-            monthformat=day.format('MMMM, YYYY')
-            monthDays=day.daysInMonth()
-            monthId=day.format('YYYY-MM')
-            renderNavBar()
-            renderWebsiteMonth()
-        })
-    
-    //right Arrow
-    document.querySelector('.right-arrow')
-        .addEventListener('click',()=>{
-            day=day.add(32,'day')
-            monthformat=day.format('MMMM, YYYY')
-            monthDays=day.daysInMonth()
-            monthId=day.format('YYYY-MM')
-            renderNavBar()
-            renderWebsiteMonth()
-            
-        }) 
-
-    //delete event
-    document.querySelectorAll(".delete").forEach((button)=>{
-        button.addEventListener('click',()=>{
-            deleteEvent(button.id)
-            
-            renderWebsiteMonth()
-        })
-    })
-    //edit event
-    document.querySelectorAll(".edit").forEach((button)=>{
-        button.addEventListener('click',()=>{
-            
-            editEvent(button.id,day)
-            
-            deleteEvent(button.id)
-            
-            renderWebsiteMonth()
-            
-        })
-    })
-    //check event
-    
-    document.querySelectorAll(".checkbox").forEach((checkbutton)=>{
-        checkbutton.addEventListener('click',()=>{
-            checkedevent(checkbutton.id)
-            renderWebsiteMonth()
-            if (checkbutton.checked==false){
-                checkbutton.checked=true
-            }else{
-                checkbutton.checked=false
-            }
-            
-        })
-    })
-    //delete reminder
-    document.querySelectorAll(".rdelete").forEach((button)=>{
-        button.addEventListener('click',()=>{
-            deletereminder(button.id)
-
-            renderWebsiteMonth()
-        })
-    })
-    //home button
-    document.querySelector(".homebutton").addEventListener('click',()=>{
-        day=today
-        monthformat=day.format('MMMM, YYYY')
-        monthDays=day.daysInMonth()
-        monthId=day.format('YYYY-MM')
-        renderNavBar()
-        renderWebsiteMonth()
-    })
-    //go to date
-    document.querySelector(".gotodatebutton").addEventListener('click',()=>{
-        goToDate()
-        renderWebsiteMonth()
-    })
-    //weekly
-    document.querySelector(".weeklybutton").addEventListener('click',()=>{
-        document.querySelector(".content").innerHTML=''
-        document.querySelector(".content").classList.remove("monthly")
-        document.querySelector(".content").classList.add("next-week")
-        monthOrWeek=0
-        renderWebsiteWeek()
-    })
-    
-}
-
-
 
 
 //side input add event
@@ -239,11 +174,7 @@ export function renderInputWindow(){
 
 function handlerUpdateButton(){
     addEvent()
-    if (monthOrWeek==0){
-        renderWebsiteWeek()
-    }else if (monthOrWeek==1){
-        renderWebsiteMonth()
-    }
+    renderWebsite
 
 }
 
@@ -266,7 +197,7 @@ export function goToDate(){
 
 document.querySelector(".content").classList.add("next-week")
 renderNavBar()
-renderWebsiteWeek ()
+renderWebsite ()
 renderInputWindow()
 
 

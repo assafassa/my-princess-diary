@@ -1,0 +1,81 @@
+
+
+body{
+    background-color: rgb(186, 189, 255);
+    font-family:cursive;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgb(133, 126, 195);
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    
+}
+.headbord{
+    height:100px; 
+    background-color: transparent;
+    text-align: center;
+}
+.my-princess-diary{
+    font-size: 40px;
+    text-align: center;
+    color: rgb(22, 117, 114);
+    font-weight: bold;
+    margin-bottom: 30px;
+}  
+.mainbox{
+    display: grid;
+    grid-area: auto;
+    -ms-grid-column-align: center;
+    grid-template-columns:  300px;
+    grid-template-rows: 250px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}   
+
+.loginbox{
+    background-color: rgb(215, 211, 252);
+    border: none;
+    border: 5px;
+    margin:2px;
+    padding: 5px;
+    border-style: solid;
+    border-color: rgb(133, 126, 195);
+    
+}
+.js-input{
+    width: 140px;
+    font-family: cursive;
+    font-size: 12px;
+    background-color: rgb(234, 232, 252);
+    color: black;
+    border: none;
+    cursor:-webkit-grab;
+    height: 22px;
+}
+.login{
+    
+    background-color: rgb(133, 126, 195);
+    color:rgb(234, 232, 252) ;
+    border: none;
+    font-family: cursive;
+    cursor: pointer;
+    width: 104px;
+    margin: 10px;
+
+}
+.signup{
+    color: blueviolet;
+    font-weight: normal;
+    font-size: 12px;
+    cursor: pointer;
+}
+.forgotpassword{
+    color: blueviolet;  
+    font-weight: normal;
+    font-size: 12px;
+    cursor: pointer;
+}

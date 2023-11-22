@@ -1,134 +1,124 @@
 export let myEvents=JSON.parse(localStorage.getItem('myEvents'))
-import {renderInputWindow, withWhomFunction, getRemindDate, sortEvents} from '../calendar.js'
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import {renderInputWindow} from '../scripts/calendar.js'
+import {withWhomFunction, getRemindDate} from '../scripts/calendarScript/weekly.js'
 if (!myEvents){
     myEvents=
         [
             {
-                date:'2023-11-16',
-                hourStart:'12:00',
-                name:'Study session at Lukes',
-                howLongminutes: 90,
-                withWhom:['Rory','Paris'],
-                rimindaysbefore:2,
-                repeat:'month',
+                date: '2023-11-21',
+                hourStart: '13:00',
+                name: 'Shopping',
+                howLongminutes: 45,
+                withWhom: ['Blair','Serena'],
+                reminddaybefore: 1,
+                reminddate: '2023-11-20',
+                repeatList: ['0','day'],
+                checked:'',
+    
             },
             {
-                date:'2023-11-17',
-                hourStart:'16:00',
-                name:'salon appointment',
-                howLongminutes: 70,
-                withWhom:['Micky','Mouse'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
+                date: '2023-11-22',
+                hourStart: '9:00',
+                name: 'Study Java script',
+                howLongminutes: 240,
+                withWhom: [Liel],
+                reminddaybefore: 0,
+                reminddate: '',
+                repeatList: ['0','day'],
+                checked:'',
+    
             },
             {
-                date:'2023-11-18',
-                hourStart:'10:30',
-                name:'Breakfast at Tiffany',
+                date: '2023-11-22',
+                hourStart: '17:00',
+                name: 'Clean my room',
                 howLongminutes: 60,
-                withWhom:['Audrey'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
+                withWhom: [],
+                reminddaybefore: 0,
+                reminddate: '',
+                repeatList: ['0','day'],
+                checked:'',
+    
             },
             {
-                date:'2023-11-19',
-                hourStart:'12:00',
-                name:'Study session at Lukes',
-                howLongminutes: 90,
-                withWhom:['Rory','Paris'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
+                date: '2023-11-23',
+                hourStart: '12:00',
+                name: 'Studdy session',
+                howLongminutes: 180,
+                withWhom: ['Rori','Paris'],
+                reminddaybefore: 3,
+                reminddate: '2023-11-20',
+                repeatList: ['1','month'],
+                checked:'',
+    
             },
             {
-                date:'2023-11-20',
-                hourStart:'16:00',
-                name:'salon appointment',
+                date: '2023-11-23',
+                hourStart: '15:45',
+                name: 'First day at my new job',
+                howLongminutes: 120,
+                withWhom: ['Yael'],
+                reminddaybefore: 2,
+                reminddate: '2023-11-21',
+                repeatList: ['0','day'],
+                checked:'',
+    
+            },
+            {
+                date: '2023-11-25',
+                hourStart: '17:00',
+                name: 'Washing my hair',
+                howLongminutes: 180,
+                withWhom: ['me','myself','I'],
+                reminddaybefore: 0,
+                reminddate: '',
+                repeatList: ['1','week'],
+                checked:'',
+    
+            },
+            {
+                date: '2023-11-26',
+                hourStart: '0:00',
+                name: 'Birthday',
                 howLongminutes: 70,
-                withWhom:['Micky','Mouse'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
+                withWhom: ['Shira'],
+                reminddaybefore: 2,
+                reminddate: '2023-11-26',
+                repeatList: ['0','day'],
+                checked:'',
+    
             },
             {
-                date:'2023-11-21',
-                hourStart:'10:30',
-                name:'Breakfast at Tiffany',
-                howLongminutes: 60,
-                withWhom:['Audrey'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
-            },{
-                date:'2023-11-22',
-                hourStart:'12:00',
-                name:'Study session at Lukes',
-                howLongminutes: 90,
-                withWhom:['Rory','Paris'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
+                date: '2023-11-26',
+                hourStart: '18:00',
+                name: 'Ingection',
+                howLongminutes: 10,
+                withWhom: ['Mom'],
+                reminddaybefore: 7,
+                reminddate: '2023-11-19',
+                repeatList: ['28','day'],
+                checked:'',
+    
             },
             {
-                date:'2023-11-23',
-                hourStart:'16:00',
-                name:'salon appointment',
-                howLongminutes: 70,
-                withWhom:['Micky','Mouse'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
-            },
-            {
-                date:'2023-11-23',
-                hourStart:'10:30',
-                name:'Breakfast at Tiffany',
-                howLongminutes: 60,
-                withWhom:['Audrey'],
-                rimindbefore:{
-                    week:1,
-                    day:3,
-                    hour:5,
-                    minute:20,
-                },
-                repeat:'month',
+                date: '2023-11-26',
+                hourStart: '19:00',
+                name: 'Dinner Party',
+                howLongminutes: 120,
+                withWhom: ['Shira','Eden'],
+                reminddaybefore: 2,
+                reminddate: '2023-11-24',
+                repeatList: ['0','day'],
+                checked:'',
+    
             },
 
             
         ];
 }
 
-function saveToStorage(){
+export function saveToStorage(){
     myEvents.sort((a, b) => {
         const EventAId=a.date+' '+a.hourStart
         const EventBId=b.date+' '+b.hourStart
@@ -167,6 +157,7 @@ export function deleteEvent(eventId){
     saveToStorage();
 
 }
+
 export function deletereminder(eventId){
     myEvents.forEach((selectedEvent)=>{
         let selectedEventId= selectedEvent.date+' '+selectedEvent.hourStart
@@ -268,3 +259,28 @@ export function editEvent(eventId){
     document.getElementById('repeatList').value=eventObject.repeatList[0]+', '+eventObject.repeatList[1]
 }
 
+function sortEvents(a,b){
+    if (dayjs(a).isBefore(dayjs(b))){
+        return(-1)
+    }else if (dayjs(b).isBefore(dayjs(a))){
+        return(1)
+    }
+
+}
+
+export function checkedevent(eventId){
+    myEvents.forEach((selectedEvent)=>{
+        let selectedEventId= selectedEvent.date+' '+selectedEvent.hourStart
+        if (selectedEventId==eventId){
+            if (selectedEvent.checked==' '){
+                selectedEvent.checked='checked'
+            }else if (selectedEvent.checked=='checked'){
+                selectedEvent.checked=' '
+  
+            }
+
+        }
+    })
+
+    saveToStorage();
+}

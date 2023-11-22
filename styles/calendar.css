@@ -4,13 +4,14 @@ body{
     font-size: 12px;
 }
 .headbord{
-    height:100px; 
+    height:130px; 
     background-color: transparent;
     margin-left: 22px;
     margin-right: 22px;
+    margin-top: 50px;
 }
 .my-princess-diary{
-    font-size: 40px;
+    font-size: 55px;
     text-align: center;
     color: rgb(22, 117, 114);
     font-weight: bold;
@@ -22,6 +23,29 @@ body{
     display: flex;
 
 }
+.monthly {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    gap: 10px; /* Adjust the gap between grid items as needed */
+}
+.monthly4 {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr); /* 4 rows with equal height */
+    grid-template-columns: repeat(7, 1fr); /* 7 columns with equal width */
+    gap: 10px; /* Adjust the gap between grid items as needed */
+}
+.monthly5 {
+    display: grid;
+    grid-template-rows: repeat(5, 1fr); /* 5 rows with equal height */
+    grid-template-columns: repeat(7, 1fr); /* 7 columns with equal width */
+    height: 100vh; /* 100% of the viewport height */
+}
+.monthly6 {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr); /* 6 rows with equal height */
+    grid-template-columns: repeat(7, 1fr); /* 7 columns with equal width */
+    height: 100vh; /* 100% of the viewport height */
+}
 .weekday{
     background-color: rgb(215, 211, 252);
     border: 5px;
@@ -31,6 +55,12 @@ body{
     border-color: rgb(133, 126, 195);
     display: -moz-grid-group;
     grid-template-rows: 30px 65px 65px 300px ;
+}
+.not-in-this-month{
+    background-color: rgb(149, 149, 195);
+    border-color: rgb(87, 83, 128);
+    color: gray;
+
 }
 .to-do-list{
     list-style-type: none;
@@ -114,7 +144,7 @@ body{
     background-color: rgb(226, 181, 248);
 }
 .update-event{
-    background-color:rgb(215, 211, 252) ;
+    
     display:flex;
     justify-content: space-between;
 }
@@ -153,11 +183,12 @@ body{
    font-weight: bold;
    display: grid;
    grid-template-rows: 25px ;
-   grid-template-columns: 40px 200px 150px 110px 50px ;
+   grid-template-columns: 40px 40px 40px 200px 150px 110px 60px ;
    
 }
-.homebutton{
+.js-img{
     height: 25px;
+    width: 25px;
     cursor: pointer;
 
 }

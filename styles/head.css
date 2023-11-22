@@ -1,0 +1,17 @@
+body{
+    background-color: rgb(186, 189, 255);
+    font-family:cursive;
+    font-size: 12px;
+}
+.headbord{
+    height:100px; 
+    background-color: transparent;
+    margin-left: 22px;
+    margin-right: 22px;
+}
+.my-princess-diary{
+    font-size: 40px;
+    text-align: center;
+    color: rgb(22, 117, 114);
+    font-weight: bold;
+}

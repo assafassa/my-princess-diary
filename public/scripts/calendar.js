@@ -174,7 +174,7 @@ export function renderInputWindow(){
 
 function handlerUpdateButton(){
     addEvent()
-    renderWebsite
+    renderWebsite()
 
 }
 
@@ -192,7 +192,7 @@ export function goToDate(){
     }
 }
 
-//monthly
+//upload data to cloud
 
 
 document.querySelector(".content").classList.add("next-week")

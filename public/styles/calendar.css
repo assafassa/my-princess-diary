@@ -183,7 +183,7 @@ body{
    font-weight: bold;
    display: grid;
    grid-template-rows: 25px ;
-   grid-template-columns: 40px 40px 40px 200px 150px 110px 60px ;
+   grid-template-columns: 40px 40px 40px 200px 150px 110px 60px 100px ;
    
 }
 .js-img{
@@ -191,6 +191,10 @@ body{
     width: 25px;
     cursor: pointer;
 
+}
+.savebutton{
+    height: 30px;
+    width:30px
 }
 .gotodatebutton{
     background-color: rgb(133, 126, 195);

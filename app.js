@@ -1,10 +1,11 @@
+
 const express=require('express');
 const mongoose=require('mongoose');
-const morgan = require('morgan');
 const app =express();
 app.use(express.json());
 const User= require('./models/users');
-const Event= require('./models/eventsmongo');
+const {createeventSchema}=require('./models/eventsmongo')
+
 
 
 
@@ -28,18 +29,42 @@ app.get('/my-princess-diary', (req,res)=>{
 
 })
 
-app.get('/add',(req,res)=>{
-    const user= new User({
-        username:'assafi',
-        password:'lali123',
-        email:'lali@mail.tau.ac.il'
 
-    });
-    user.save()
-        .then((result)=>console.log('saved'))
+app.post('/trytologin', (req, res) => {
+    const {username, password}= req.body;
+    User.findOne({username})
+        .then(user=>{
+            let messegeback={}
+            if (user){
+               if (user.password==password) {
+                messegeback.result='login sucessful. Retrieving your data'
+                
+               }else if (user.password!=password){
+                messegeback.result='Username or Password are incorrect.'
+                
+               }
+            }else {
+                messegeback.result='Username does not exit.'
+                
+            }
+            res.json(messegeback); 
+        })
         .catch((err)=>console.log(err))
-})
+  
+});
 
+app.post('/retrieveevent', (req, res) => {
+    const {username, password}= req.body;
+    //upload events
+  let {Event}= createeventSchema(username);
+  Event.find()
+      .then (Events=>{res.json({Events});})
+      .catch(err => console.log(err));
+
+});
+
+
+const Event= require('./models/eventsmongo');
 app.get('/addevent',(req,res)=>{
     const event= new Event({
         date: '2023-11-23',
@@ -57,24 +82,14 @@ app.get('/addevent',(req,res)=>{
         .catch((err)=>console.log(err))
 })
 
-app.post('/', (req, res) => {
-    const {username, password}= req.body;
-    console.log(req.body)
-    User.findOne({username})
-        .then(user=>{
-            let messegeback={}
-            if (user){
-               if (user.password==password) {
-                //need to add event
-                messegeback.result='yes'
-               }else if (user.password!=password){
-                messegeback.result='Username or Password are incorrect.'
-               }
-            }else {
-                messegeback.result='Username does not exit.'
-            }
-            res.json(messegeback);
-        })
+app.get('/add',(req,res)=>{
+    const user= new User({
+        username:'assafi',
+        password:'lali123',
+        email:'lali@mail.tau.ac.il'
+
+    });
+    user.save()
+        .then((result)=>console.log('saved'))
         .catch((err)=>console.log(err))
-  
-  });
+})

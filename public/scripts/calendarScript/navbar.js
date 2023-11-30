@@ -13,5 +13,6 @@ export function renderNavBar(){
     go to that date >>
     <input id="gotodate" class="date-input" type="date" >
     <div class="gotodatebutton">></div>
+    <img class="js-img savebutton"src="./images/save.png">
     `
 }

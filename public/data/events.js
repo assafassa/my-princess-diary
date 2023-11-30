@@ -1,4 +1,5 @@
 export let myEvents=JSON.parse(localStorage.getItem('myEvents'))
+export let myChanges=JSON.parse(localStorage.getItem('myChanges'))
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {renderInputWindow} from '../scripts/calendar.js'
 import {withWhomFunction, getRemindDate} from '../scripts/calendarScript/weekly.js'
@@ -6,6 +7,7 @@ if (!myEvents){
     myEvents=
         [
             {
+                Id:'2023-11-21 13:00',
                 date: '2023-11-21',
                 hourStart: '13:00',
                 name: 'Shopping',
@@ -18,6 +20,7 @@ if (!myEvents){
     
             },
             {
+                Id:'2023-11-22 9:00',
                 date: '2023-11-22',
                 hourStart: '9:00',
                 name: 'Study Java script',
@@ -30,6 +33,7 @@ if (!myEvents){
     
             },
             {
+                Id:'2023-11-22 17:00',
                 date: '2023-11-22',
                 hourStart: '17:00',
                 name: 'Clean my room',
@@ -42,6 +46,7 @@ if (!myEvents){
     
             },
             {
+                Id:'2023-11-23 12:00',
                 date: '2023-11-23',
                 hourStart: '12:00',
                 name: 'Studdy session',
@@ -53,75 +58,46 @@ if (!myEvents){
                 checked:'',
     
             },
+            
+        ];
+}
+if (!myChanges){
+    myChanges=
+        [   
+            ['DELETE',
             {
-                date: '2023-11-23',
-                hourStart: '15:45',
-                name: 'First day at my new job',
-                howLongminutes: 120,
-                withWhom: ['Yael'],
-                reminddaybefore: 2,
-                reminddate: '2023-11-21',
+                Id: '2023-11-21 13:00',
+                date: '2023-11-21',
+                hourStart: '13:00',
+                name: 'Shopping',
+                howLongminutes: 45,
+                withWhom: ['Blair','Serena'],
+                reminddaybefore: 1,
+                reminddate: '2023-11-20',
                 repeatList: ['0','day'],
                 checked:'',
     
-            },
-            {
-                date: '2023-11-25',
-                hourStart: '17:00',
-                name: 'Washing my hair',
-                howLongminutes: 180,
-                withWhom: ['me','myself','I'],
-                reminddaybefore: 0,
-                reminddate: '',
-                repeatList: ['1','week'],
-                checked:'',
-    
-            },
-            {
-                date: '2023-11-26',
-                hourStart: '0:00',
-                name: 'Birthday',
-                howLongminutes: 70,
-                withWhom: ['Shira'],
-                reminddaybefore: 2,
-                reminddate: '2023-11-26',
-                repeatList: ['0','day'],
-                checked:'',
-    
-            },
-            {
-                date: '2023-11-26',
-                hourStart: '18:00',
-                name: 'Ingection',
-                howLongminutes: 10,
-                withWhom: ['Mom'],
-                reminddaybefore: 7,
-                reminddate: '2023-11-19',
-                repeatList: ['28','day'],
-                checked:'',
-    
-            },
-            {
-                date: '2023-11-26',
-                hourStart: '19:00',
-                name: 'Dinner Party',
-                howLongminutes: 120,
-                withWhom: ['Shira','Eden'],
-                reminddaybefore: 2,
-                reminddate: '2023-11-24',
-                repeatList: ['0','day'],
-                checked:'',
-    
-            },
+            }],
+            
 
             
         ];
 }
 
+function deleteduplicatechanges(selectedEventId){
+    let myNewChanges=[]
+    myChanges.forEach((change)=>{
+       let changeid= change[1].Id
+       if (changeid!=selectedEventId){
+            myNewChanges.push(change)
+       }
+    })
+    myChanges=myNewChanges
+}
 export function saveToStorage(){
     myEvents.sort((a, b) => {
-        const EventAId=a.date+' '+a.hourStart
-        const EventBId=b.date+' '+b.hourStart
+        const EventAId=a.Id
+        const EventBId=b.Id
         return(sortEvents(EventAId,EventBId));
         /*const timeA = a.hourStart.split(':');
         const timeB = b.hourStart.split(':');
@@ -140,16 +116,21 @@ export function saveToStorage(){
         // If hours are the same, compare minutes
         return minuteA - minuteB;*/
     });
+    console.log(myChanges)
     localStorage.setItem('myEvents', JSON.stringify(myEvents));
+    localStorage.setItem('myChanges',JSON.stringify(myChanges));
 }
 
 export function deleteEvent(eventId){
     const newEvents=[]
 
     myEvents.forEach((selectedEvent)=>{
-        let selectedEventId= selectedEvent.date+' '+selectedEvent.hourStart
+        let selectedEventId= selectedEvent.Id
         if (selectedEventId!==eventId){
             newEvents.push(selectedEvent)
+        }else{
+            deleteduplicatechanges(selectedEventId)
+            myChanges.push(['DELETE',selectedEvent])
         }
     });
     myEvents = newEvents
@@ -160,10 +141,12 @@ export function deleteEvent(eventId){
 
 export function deletereminder(eventId){
     myEvents.forEach((selectedEvent)=>{
-        let selectedEventId= selectedEvent.date+' '+selectedEvent.hourStart
+        let selectedEventId= selectedEvent.Id
         if (selectedEventId==eventId){
             selectedEvent.reminddate=''
             selectedEvent.reminddaybefore=0
+            deleteduplicatechanges(selectedEventId)
+            myChanges.push(['UPDATE',selectedEvent])
         }
     })
     saveToStorage();
@@ -213,10 +196,10 @@ export function addEvent(){
     
     //check if id exits
     if (check==0){
-        let newEventId=newEvent.date+' '+newEvent.hourStart
+        newEvent.Id=newEvent.date+' '+newEvent.hourStart
         myEvents.forEach((selectedEvent)=>{
-            let selectedEventId= selectedEvent.date+' '+selectedEvent.hourStart
-            if (selectedEventId===newEventId){
+            let selectedEventId= selectedEvent.Id
+            if (selectedEventId===newEvent.Id){
                 check=1
                 document.querySelector(".if-missing").innerHTML='you have an event at that time'
             }
@@ -232,6 +215,8 @@ export function addEvent(){
             newEvent.reminddate=getRemindDate(newEvent.date,newEvent.reminddaybefore)
         }
         myEvents.push(newEvent)
+        deleteduplicatechanges(newEvent.Id)
+        myChanges.push(['ADDorEDIT',newEvent])
         saveToStorage()
         renderInputWindow()
 
@@ -244,7 +229,7 @@ export function editEvent(eventId){
     
     let eventObject
     myEvents.forEach((Event)=>{
-        let selectedEventId= Event.date+' '+Event.hourStart
+        let selectedEventId= Event.Id
         if (selectedEventId==eventId){
             eventObject= Event
         }
@@ -257,6 +242,7 @@ export function editEvent(eventId){
     document.getElementById('withWhom').value = withWhomFunction(eventObject.withWhom).replace('with ', '');
     document.getElementById('reminddaybefore').value=eventObject.reminddaybefore
     document.getElementById('repeatList').value=eventObject.repeatList[0]+', '+eventObject.repeatList[1]
+
 }
 
 function sortEvents(a,b){
@@ -270,7 +256,7 @@ function sortEvents(a,b){
 
 export function checkedevent(eventId){
     myEvents.forEach((selectedEvent)=>{
-        let selectedEventId= selectedEvent.date+' '+selectedEvent.hourStart
+        let selectedEventId= selectedEvent.Id
         if (selectedEventId==eventId){
             if (selectedEvent.checked==' '){
                 selectedEvent.checked='checked'
@@ -278,9 +264,10 @@ export function checkedevent(eventId){
                 selectedEvent.checked=' '
   
             }
-
+            deleteduplicatechanges(eventId)
+            myChanges.push(['ADDorEDIT',selectedEvent])
         }
     })
-
+    
     saveToStorage();
 }

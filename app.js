@@ -3,8 +3,8 @@ const express=require('express');
 const mongoose=require('mongoose');
 const app =express();
 app.use(express.json());
-const User= require('./models/users');
-const eventsRoutets=require('./routes/eventsRoutes');
+let User= require('./models/users');
+const eventsRoutes=require('./routes/eventsRoutes');
 
 
 
@@ -53,7 +53,7 @@ app.post('/trytologin', (req, res) => {
 });
 
 app.use('/events',eventsRoutes);
-
+/*
 
 const Event= require('./models/eventsmongo');
 app.get('/addevent',(req,res)=>{
@@ -84,3 +84,4 @@ app.get('/add',(req,res)=>{
         .then((result)=>console.log('saved'))
         .catch((err)=>console.log(err))
 })
+*/

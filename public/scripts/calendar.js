@@ -4,6 +4,7 @@ import {renderthisweek} from './calendarScript/weekly.js'
 import { renderNavBar } from './calendarScript/navbar.js';
 import { renderthismonth } from './calendarScript/monthly.js';
 import { turndaytoid } from './calendarScript/utils.js';
+import {updateeventscloud} from './calendarScript/cloud.js';
 
 export let today=dayjs()
 export let day=dayjs()
@@ -145,6 +146,9 @@ function renderWebsite (){
             renderWebsite()
         }
     })
+    //upload data to cloud
+    document.querySelector(".savebutton").removeEventListener('click',handlerforupdatedata)
+    document.querySelector(".savebutton").addEventListener('click',handlerforupdatedata)
     
 }
 
@@ -192,8 +196,11 @@ export function goToDate(){
     }
 }
 
-//upload data to cloud
-
+function handlerforupdatedata(){
+    updateeventscloud()
+    renderWebsite()
+    renderNavBar()
+}
 
 document.querySelector(".content").classList.add("next-week")
 renderNavBar()

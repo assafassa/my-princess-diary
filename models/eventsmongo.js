@@ -1,8 +1,8 @@
 const mongoose=require('mongoose');
-const Schema=mongoose.Schema;
+let Schema=mongoose.Schema;
 
 function  createeventSchema(username){
-    const eventSchema=new Schema({
+    let eventSchema=new Schema({
         Id:{
             type: String,
             required:true
@@ -34,7 +34,7 @@ function  createeventSchema(username){
         },
         reminddate: {
             type: String,
-            required:true
+            required:false
         },
         repeatList: {
             type: [String],
@@ -42,7 +42,7 @@ function  createeventSchema(username){
         },
         checked:{
             type: String,
-            required:true
+            required:false
         },
     },{timestamps: true});
 

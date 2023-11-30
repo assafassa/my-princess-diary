@@ -19,45 +19,7 @@ if (!myEvents){
                 checked:'',
     
             },
-            {
-                Id:'2023-11-22 9:00',
-                date: '2023-11-22',
-                hourStart: '9:00',
-                name: 'Study Java script',
-                howLongminutes: 240,
-                withWhom: ['Liel'],
-                reminddaybefore: 0,
-                reminddate: '',
-                repeatList: ['0','day'],
-                checked:'',
-    
-            },
-            {
-                Id:'2023-11-22 17:00',
-                date: '2023-11-22',
-                hourStart: '17:00',
-                name: 'Clean my room',
-                howLongminutes: 60,
-                withWhom: [],
-                reminddaybefore: 0,
-                reminddate: '',
-                repeatList: ['0','day'],
-                checked:'',
-    
-            },
-            {
-                Id:'2023-11-23 12:00',
-                date: '2023-11-23',
-                hourStart: '12:00',
-                name: 'Studdy session',
-                howLongminutes: 180,
-                withWhom: ['Rori','Paris'],
-                reminddaybefore: 3,
-                reminddate: '2023-11-20',
-                repeatList: ['1','month'],
-                checked:'',
-    
-            },
+            
             
         ];
 }
@@ -116,9 +78,10 @@ export function saveToStorage(){
         // If hours are the same, compare minutes
         return minuteA - minuteB;*/
     });
-    console.log(myChanges)
+    
     localStorage.setItem('myEvents', JSON.stringify(myEvents));
     localStorage.setItem('myChanges',JSON.stringify(myChanges));
+    
 }
 
 export function deleteEvent(eventId){

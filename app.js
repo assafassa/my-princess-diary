@@ -4,8 +4,7 @@ const mongoose=require('mongoose');
 const app =express();
 app.use(express.json());
 const User= require('./models/users');
-const {createeventSchema}=require('./models/eventsmongo')
-
+const eventsRoutets=require('./routes/eventsRoutes');
 
 
 
@@ -53,15 +52,7 @@ app.post('/trytologin', (req, res) => {
   
 });
 
-app.post('/retrieveevent', (req, res) => {
-    const {username, password}= req.body;
-    //upload events
-  let {Event}= createeventSchema(username);
-  Event.find()
-      .then (Events=>{res.json({Events});})
-      .catch(err => console.log(err));
-
-});
+app.use('/events',eventsRoutes);
 
 
 const Event= require('./models/eventsmongo');

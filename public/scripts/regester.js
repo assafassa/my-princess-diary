@@ -25,7 +25,7 @@ regestation.addEventListener('click',()=>{
             // Handle the response 
             if (data.result=='login sucessful. Retrieving your data'){
                 document.querySelector(".messege").innerHTML=data.result
-                fetch('/retrieveevent',{
+                fetch('/events/retrieveevent',{
                     method:'POST',
                     headers: {
                         'Content-Type': 'application/json'

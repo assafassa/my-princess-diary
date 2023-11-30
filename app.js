@@ -3,7 +3,7 @@ const express=require('express');
 const mongoose=require('mongoose');
 const app =express();
 app.use(express.json());
-let User= require('./models/users');
+const User= require('./models/users');
 const eventsRoutes=require('./routes/eventsRoutes');
 
 
@@ -28,6 +28,10 @@ app.get('/my-princess-diary', (req,res)=>{
 
 })
 
+app.get('/signup', (req,res)=>{
+    res.render('signup')
+
+})
 
 app.post('/trytologin', (req, res) => {
     const {username, password}= req.body;

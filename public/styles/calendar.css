@@ -4,11 +4,10 @@ body{
     font-size: 12px;
 }
 .headbord{
-    height:150px; 
+    height:190px; 
     background-color: transparent;
     margin-left: 22px;
     margin-right: 22px;
-    margin-top: 50px;
 }
 .my-princess-diary{
     font-size: 55px;
@@ -177,6 +176,19 @@ body{
     cursor: pointer;
     width: 104px;
 }
+.headbar{
+    color: rgb(133, 126, 195); 
+    font-size: 16px;
+    font-weight: bold;
+    display: grid;
+    grid-template-rows: 25px ;
+    grid-template-columns: 1fr 100px  ;
+    text-align: right;
+    align-self: right;
+    
+   
+
+}
 .nav-bar{
     margin-top: 15px;
    color: rgb(133, 126, 195); 
@@ -184,7 +196,7 @@ body{
    font-weight: bold;
    display: grid;
    grid-template-rows: 25px ;
-   grid-template-columns: 40px 40px 40px 200px 150px 110px 60px 35px 50px  minmax(60px, 1fr) ;
+   grid-template-columns: 40px 40px 40px  1fr 150px 110px 60px 35px 130px ;
    
 }
 .js-img{
@@ -214,5 +226,5 @@ body{
     cursor: pointer;
 }
 .logoutbuttonimg{
-    margin-bottom:-5px;
+    margin-bottom:-8px;
 }

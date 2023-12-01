@@ -1,8 +1,8 @@
 
 
-const regestation=document.querySelector(".login");
 
-regestation.addEventListener('click',()=>{
+
+document.querySelector(".login").addEventListener('click',()=>{
     
     let username=document.getElementById("username").value
     let password=document.getElementById("password").value
@@ -36,7 +36,9 @@ regestation.addEventListener('click',()=>{
                 .then(data=>{
                     let {Events}=data
                     localStorage.setItem('myEvents', JSON.stringify(Events));
+                    
                     window.location.href='/my-princess-diary'
+
                     
 
                 })

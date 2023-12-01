@@ -23,7 +23,7 @@ let idtoday=today.format('YYYY-MM-DD')
 //Get the number of days in the current month.
 //console.log(dayjs().daysInmonth())
 
-
+export let Currentusername=''
 
 
 
@@ -206,9 +206,23 @@ function handlerforupdatedata(){
     
 }
 
+function getusername(){
+    fetch('/events/getusername',{
+        method:'GET'
+    })
+    .then(response => response.json())
+    .then((data)=>{
+        Currentusername=data.Currentusername
+        renderNavBar()
+        renderWebsite ()
+        renderInputWindow()
+
+    })
+    .catch((err)=>console.log(err))
+}
+
 document.querySelector(".content").classList.add("next-week")
-renderNavBar()
-renderWebsite ()
-renderInputWindow()
+getusername()
+
 
 

@@ -43,13 +43,15 @@ let eventSchema=new Schema({
         required:false
     },
 },{timestamps: true});
-function  createeventSchema(username){
 
+
+function  createeventSchema(username){
+    
     let Event = mongoose.model('Event', eventSchema, username)
     return ({Event})
 }
 
 module.exports = {
     createeventSchema
-
+    
 };

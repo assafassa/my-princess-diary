@@ -16,6 +16,12 @@ router.post('/retrieveevent', (req, res) => {
       .catch(err => console.log(err));
 
 });
+
+router.get('/getusername', (req, res) => {
+  res.json({Currentusername})
+
+});
+
 router.delete('/logoutfromuser', (req, res) => {
   Currentusername=''
   CurrntEvent=null

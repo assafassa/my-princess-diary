@@ -44,7 +44,7 @@ body{
     padding: 5px;
     border-style: solid;
     border-color: rgb(133, 126, 195);
-    height: 250px;
+    height: 270px;
     
 }
 .js-input{
@@ -79,4 +79,13 @@ body{
     font-weight: normal;
     font-size: 12px;
     cursor: pointer;
+}
+.head{
+    font-size: 30px;
+    color: rgb(239, 239, 246);
+    text-shadow: -1px -1px 0 rgb(133, 126, 195),  
+    1px -1px 0 rgb(133, 126, 195),
+    -1px 1px 0 rgb(133, 126, 195),
+    1px 1px 0 rgb(133, 126, 195);
+    font-weight: normal;
 }

@@ -53,3 +53,7 @@ regestation.addEventListener('click',()=>{
         }
     
 });
+
+document.querySelector('.signup').addEventListener('click',()=>{
+    window.location.href='/signup'
+});

@@ -43,3 +43,9 @@ export function indays (idday){
         return('<p class="day-of-week-none"> _</p>')
     }
 }
+
+export function isValidEmail(email) {
+    // Regular expression for a basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }

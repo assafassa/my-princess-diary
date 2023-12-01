@@ -55,6 +55,38 @@ app.post('/trytologin', (req, res) => {
         .catch((err)=>console.log(err))
   
 });
+app.post('/signup', (req, res) => {
+    const {username, password, email}= req.body;
+    User.findOne({ $or: [
+        { username: username },
+        { email: email }
+      ]})
+        .then(user=>{
+            let messegeback={}
+            if (user){
+                messegeback.result='Username or mail exits.'
+                res.json(messegeback); 
+            }else {
+                let newuser= new User({
+                    username:username,
+                    password:password,
+                    email:email
+            
+                });
+                newuser.save()
+                    .then((result)=>{
+                        messegeback.result='User created'
+                        res.json(messegeback); 
+                    })
+                    .catch((err)=>console.log(err)) 
+            }   
+        })
+        .catch((err)=>console.log(err))
+  
+});
+
+
+  
 
 app.use('/events',eventsRoutes);
 /*
@@ -76,16 +108,15 @@ app.get('/addevent',(req,res)=>{
         .then((result)=>console.log('saved'))
         .catch((err)=>console.log(err))
 })
-
+*/
 app.get('/add',(req,res)=>{
     const user= new User({
-        username:'assafi',
+        username:'lali123',
         password:'lali123',
-        email:'lali@mail.tau.ac.il'
+        email:'laliesp@mail.tau.ac.il'
 
     });
     user.save()
         .then((result)=>console.log('saved'))
         .catch((err)=>console.log(err))
 })
-*/

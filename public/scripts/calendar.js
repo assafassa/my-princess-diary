@@ -1,7 +1,7 @@
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deleteEvent ,addEvent,editEvent,deletereminder, checkedevent} from "../data/events.js";
 import {renderthisweek} from './calendarScript/weekly.js'
-import { renderNavBar } from './calendarScript/navbar.js';
+import { renderNavBar,logout } from './calendarScript/navbar.js';
 import { renderthismonth } from './calendarScript/monthly.js';
 import { turndaytoid } from './calendarScript/utils.js';
 import {updateeventscloud} from './calendarScript/cloud.js';
@@ -149,6 +149,9 @@ function renderWebsite (){
     //upload data to cloud
     document.querySelector(".savebutton").removeEventListener('click',handlerforupdatedata)
     document.querySelector(".savebutton").addEventListener('click',handlerforupdatedata)
+
+    //logout
+    document.querySelector(".logout").addEventListener('click',logout)
     
 }
 
@@ -198,8 +201,9 @@ export function goToDate(){
 
 function handlerforupdatedata(){
     updateeventscloud()
-    renderWebsite()
     renderNavBar()
+    renderWebsite()
+    
 }
 
 document.querySelector(".content").classList.add("next-week")

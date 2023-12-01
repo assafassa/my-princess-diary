@@ -1,10 +1,10 @@
 body{
-    background-color: rgb(186, 189, 255);
+    background-color: rgb(203, 206, 252);
     font-family:cursive;
     font-size: 12px;
 }
 .headbord{
-    height:130px; 
+    height:150px; 
     background-color: transparent;
     margin-left: 22px;
     margin-right: 22px;
@@ -15,6 +15,7 @@ body{
     text-align: center;
     color: rgb(22, 117, 114);
     font-weight: bold;
+    margin-bottom: 40px;
 }
 .week-board{
     display: flex;
@@ -104,7 +105,7 @@ body{
     width: 100px;
     font-family: cursive;
     font-size: 12px;
-    background-color: rgb(215, 211, 252);
+    background-color: rgb(227, 224, 250);
     color: black;
     border:none;
     cursor:-webkit-grab;
@@ -183,7 +184,7 @@ body{
    font-weight: bold;
    display: grid;
    grid-template-rows: 25px ;
-   grid-template-columns: 40px 40px 40px 200px 150px 110px 60px 35px 100px ;
+   grid-template-columns: 40px 40px 40px 200px 150px 110px 60px 35px 50px  minmax(60px, 1fr) ;
    
 }
 .js-img{
@@ -207,4 +208,11 @@ body{
     margin-left: 3px;
     height: 25px;
     font-size: 16px;
+}
+.logout{
+    text-align: right;
+    cursor: pointer;
+}
+.logoutbuttonimg{
+    margin-bottom:-5px;
 }

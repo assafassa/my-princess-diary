@@ -16,6 +16,11 @@ router.post('/retrieveevent', (req, res) => {
       .catch(err => console.log(err));
 
 });
+router.delete('/logoutfromuser', (req, res) => {
+  Currentusername=''
+  CurrntEvent=null
+  res.json()
+});
 
 router.post('/updatedata',(req,res)=>{
   const {changes}=req.body;

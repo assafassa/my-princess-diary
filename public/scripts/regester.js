@@ -1,5 +1,5 @@
 
-
+import {forgotpasswordpage} from './regesterScript/forgotpass.js'
 
 
 document.querySelector(".login").addEventListener('click',()=>{
@@ -59,3 +59,7 @@ document.querySelector(".login").addEventListener('click',()=>{
 document.querySelector('.signup').addEventListener('click',()=>{
     window.location.href='/signup'
 });
+
+document.querySelector(".forgotpassword").addEventListener('click',()=>{
+    forgotpasswordpage()
+})

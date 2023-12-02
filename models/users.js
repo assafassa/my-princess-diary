@@ -13,6 +13,10 @@ const userSchema=new Schema({
     email:{
         type: String,
         required:true
+    },
+    previousmails:{
+        type:[String],
+        required:false
     }
 },{timestamps: true});
 

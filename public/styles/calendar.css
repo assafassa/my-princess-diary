@@ -4,7 +4,7 @@ body{
     font-size: 12px;
 }
 .headbord{
-    height:190px; 
+    height:180px; 
     background-color: transparent;
     margin-left: 22px;
     margin-right: 22px;
@@ -14,18 +14,20 @@ body{
     text-align: center;
     color: rgb(22, 117, 114);
     font-weight: bold;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 .week-board{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 140px;
 }
 .next-week{
-    display: flex;
+    display: grid;
+    grid-template-columns: 20px repeat(7, 1fr) 40px;
 
 }
 .monthly {
     display: grid;
-    grid-template-columns: 40px 1fr 40px;
+    grid-template-columns: 20px 1fr 40px;
     gap: 10px; /* Adjust the gap between grid items as needed */
 }
 .monthly4 {

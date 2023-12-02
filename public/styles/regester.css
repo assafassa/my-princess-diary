@@ -59,7 +59,7 @@ body{
     cursor:-webkit-grab;
     height: 22px;
 }
-.login{
+.login, .verify,.send,.save{
     
     background-color: rgb(133, 126, 195);
     color:rgb(234, 232, 252) ;
@@ -69,6 +69,9 @@ body{
     width: 104px;
     margin: 10px;
 
+}
+.paragarphsend{
+    margin-top:50px;
 }
 .signup{
     color: blueviolet;
@@ -90,4 +93,11 @@ body{
     -1px 1px 0 rgb(133, 126, 195),
     1px 1px 0 rgb(133, 126, 195);
     font-weight: normal;
+}
+.yourmail{
+    font-size: 20px;
+    color:rgb(100, 95, 152);
+}
+.divederverify{
+    margin-top: 50px;
 }

@@ -70,7 +70,23 @@ body{
     margin: 10px;
 
 }
+.verify{
+    background-color: rgb(133, 126, 195);
+    color:rgb(234, 232, 252) ;
+    border: none;
+    font-family: cursive;
+    cursor: pointer;
+    width: 104px;
+    margin: 10px; 
+}
 
+.yourmail{
+    font-size: 20px;
+    color:rgb(100, 95, 152);
+}
+.divederverify{
+    margin-top: 50px;
+}
 .haveaccout{
     color: blueviolet;  
     font-weight: normal;

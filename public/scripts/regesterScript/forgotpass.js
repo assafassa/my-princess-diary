@@ -40,7 +40,7 @@ function handlersend(){
             password:'123',
             action:'reset password'
         }
-        fetch('/signup',{
+        fetch('/signup/forgotpassword',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ function handlersend(){
             if (newdata.result=='Username or mail exits.'){
                 dataToSend.username=newdata.username
                 sendverifymail(dataToSend)
-            }else if (newdata.result=='Contuning to verify email.'){
+            }else if (newdata.result=='Username or mail no exits.'){
                 document.querySelector(".messege").innerHTML='Email does not exit. Tryagain'
                 setTimeout(()=>{document.querySelector(".messege").innerHTML=''},2000);
                 resrtingpssword()

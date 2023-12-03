@@ -1,8 +1,8 @@
 const express=require('express')
-const {createeventSchema}=require('../models/eventsmongo')
 const mongoose=require('mongoose');
 const User= require('../models/users');
 const nodemailer=require('nodemailer')
+const bcrypt=require('bcrypt')
 
 const router=express.Router();
 let randomverifycode
@@ -30,6 +30,26 @@ router.post('/', (req, res) => {
                 res.json(messegeback); 
             }else {
                 messegeback.result='Contuning to verify email.'
+                res.json(messegeback);  
+            }   
+        })
+        .catch((err)=>console.log(err))
+  
+});
+router.post('/forgotpassword', (req, res) => {
+    let {username, email}= req.body;
+    User.findOne({ $or: [
+        { username: username },
+        { email: email }
+      ]})
+        .then(user=>{
+            let messegeback={}
+            if (user){
+                messegeback.result='Username or mail exits.'
+                messegeback.username=user.username
+                res.json(messegeback); 
+            }else {
+                messegeback.result='Username or mail no exits.'
                 res.json(messegeback);  
             }   
         })

@@ -29,7 +29,6 @@ router.post('/', (req, res) => {
                 messegeback.username=user.username
                 res.json(messegeback); 
             }else {
-                console.log('here')
                 messegeback.result='Contuning to verify email.'
                 res.json(messegeback);  
             }   

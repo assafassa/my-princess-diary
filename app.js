@@ -32,14 +32,17 @@ app.get('/my-princess-diary', (req,res)=>{
 
 app.post('/trytologin', async (req, res) => {
     let {username, password}= req.body;
-    User.findOne({username})
+    User.findOne({ $or: [
+        { username: username },
+        { email: username }
+      ]})
         .then(async user=>{
             let messegeback={}
             if (user){
                 let isvalid = await bcrypt.compare(password, user.password);
                 if (isvalid) {
                 messegeback.result='login sucessful. Retrieving your data'
-                
+                messegeback.username=user.username
                 }else if (!isvalid){
                 messegeback.result='Username or Password are incorrect.'
                 

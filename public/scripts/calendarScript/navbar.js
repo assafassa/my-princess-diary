@@ -1,7 +1,5 @@
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {monthformat} from '../calendar.js'
-import {updateeventscloud} from './cloud.js'
-import { Currentusername } from '../calendar.js';
+import { Currentusername } from '../regester.js';
 
 //nav-bar
 

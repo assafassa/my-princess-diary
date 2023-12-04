@@ -1,6 +1,7 @@
 
 
 body{
+    position: relative;
     background-color: rgb(186, 189, 255);
     font-family:cursive;
     font-size: 12px;
@@ -68,7 +69,15 @@ body{
     cursor: pointer;
     width: 104px;
     margin: 10px;
+    z-index: 4;
+    position: relative;
 
+}
+.login:active, .verify:active,.send:active,.save:active{
+    background-color: rgb(234, 232, 252);
+    color:rgb(133, 126, 195) ;
+    border: none;
+    
 }
 .paragarphsend{
     margin-top:50px;
@@ -100,4 +109,21 @@ body{
 }
 .divederverify{
     margin-top: 50px;
+}
+.signup{
+    z-index: 4;
+    position: relative;
+    margin-bottom:20px ;
+}
+.loadinggiff{
+    height:20px;
+    z-index: 2;
+    transform: translate(-80%,-250%);
+    
+}
+.loadinggiffpug{
+    height:70px;
+    
+    transform:translate(-5%, -30%);
+    z-index: 2;
 }

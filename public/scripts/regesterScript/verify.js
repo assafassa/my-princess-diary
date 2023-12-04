@@ -59,6 +59,7 @@ function veryfyingup(){
 }
 
 function handlerverify(){
+    document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let datatosend={}
     datatosend.verifycode=document.getElementById("verifycode").value
     datatosend.action=action

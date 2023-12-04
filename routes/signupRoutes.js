@@ -275,7 +275,6 @@ router.post('/changepassword', async (req, res) => {
     try {
         let messegeback = {};
         if (verifying == 1) {
-            console.log("start")
             let { username, password } = req.body;
             let user = await User.findOne({ username: username });
 
@@ -295,7 +294,6 @@ router.post('/changepassword', async (req, res) => {
 
             for (let pas of previous) {
                 let isvalid = await bcrypt.compare(password, pas);
-                console.log('finish this')
 
                 if (isvalid) {
                     messegeback.result = 'previous password.';
@@ -306,9 +304,7 @@ router.post('/changepassword', async (req, res) => {
             }
 
             if (check === 0) {
-                console.log("afterlist")
                 let isvalid = await bcrypt.compare(password, pass);
-                console.log(isvalid)
                 if (isvalid) {
                     messegeback.result = 'previous password.';
                     res.json(messegeback);
@@ -316,7 +312,6 @@ router.post('/changepassword', async (req, res) => {
                     await User.findOneAndDelete({ username: name });
 
                     previous.push(pass);
-                    console.log("hashing new password")
                     let newhashedpass= await bcrypt.hash(password,13)
                     let newUser = new User({
                         username: name,
@@ -326,7 +321,6 @@ router.post('/changepassword', async (req, res) => {
                     });
 
                     await newUser.save();
-                    console.log("done")
                     messegeback.result = 'new password saved';
                     res.json(messegeback);
                 }

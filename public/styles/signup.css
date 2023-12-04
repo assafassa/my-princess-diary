@@ -1,6 +1,7 @@
 
 
 body{
+    position: relative;
     background-color: rgb(186, 189, 255);
     font-family:cursive;
     font-size: 12px;
@@ -59,6 +60,8 @@ body{
     cursor:-webkit-grab;
     height: 22px;
 }
+
+
 .signup,.verify{
     
     background-color: rgb(133, 126, 195);
@@ -68,6 +71,8 @@ body{
     cursor: pointer;
     width: 104px;
     margin: 10px;
+    z-index: 4;
+    position: relative;
 
 }
 .signup:active,.verify:active{
@@ -98,4 +103,16 @@ body{
     -1px 1px 0 rgb(133, 126, 195),
     1px 1px 0 rgb(133, 126, 195);
     font-weight: normal;
+}
+.loadinggiff{
+    height:20px;
+    z-index: 2;
+    transform: translate(-80%,-250%);
+    
+}
+.loadinggiffpug{
+    height:70px;
+    
+    transform:translate(-5%, -30%);
+    z-index: 2;
 }

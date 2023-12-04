@@ -32,6 +32,7 @@ export function resrtingpssword(){
 }
 
 function handlersend(){
+    document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let email=document.getElementById("email").value
     if (isValidEmail(email)){
         let dataToSend={
@@ -93,6 +94,7 @@ function changingpssword(){
 }
 
 function handlersave(){
+    document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let firstpassword=document.getElementById("password1").value
     let secondpassword=document.getElementById("password2").value
     if (firstpassword<5){

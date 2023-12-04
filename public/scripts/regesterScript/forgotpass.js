@@ -3,8 +3,7 @@
 import { sendverifymail } from "./verify.js"
 import {isValidEmail} from "../calendarScript/utils.js"
 let Currentusername
-let password
-let email
+
 
 //handelr to button to change html to input mail
 
@@ -26,11 +25,8 @@ export function forgotpasswordpage(){
 }
 //const singup=document.querySelector(".signup");
 export function resrtingpssword(){
-    let verify=document.querySelector(".send")
-    verify.removeEventListener('click',handlersend);
-    document.body.removeEventListener('keydown',handelrenter)
     document.body.addEventListener('keydown',handelrenter)
-    verify.addEventListener('click',handlersend);
+    document.querySelector(".send").addEventListener('click',handlersend);
 }
 function handelrenter(event){
     if(event.key==='Enter'){
@@ -39,16 +35,17 @@ function handelrenter(event){
 }
 
 function handlersend(){
+    document.querySelector(".send").removeEventListener('click',handlersend);
+    document.body.removeEventListener('keydown',handelrenter)
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let email=document.getElementById("email").value
     if (isValidEmail(email)){
         let dataToSend={
             email,
             username:'nani',
-            password:'123',
             action:'reset password'
         }
-        fetch('/signup/forgotpassword',{
+        fetch('/signup',{
             method:'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -95,11 +92,8 @@ export function changepasswordpage(username){
 }
 //const singup=document.querySelector(".signup");
 function changingpssword(){
-    let savebutton=document.querySelector(".save")
-    savebutton.removeEventListener('click',handlersave);
-    document.body.removeEventListener('keydown',handelrenter1)
     document.body.addEventListener('keydown',handelrenter1)
-    savebutton.addEventListener('click',handlersave);
+    document.querySelector(".save").addEventListener('click',handlersave);
 }
 function handelrenter1(event){
     if(event.key==='Enter'){
@@ -108,6 +102,8 @@ function handelrenter1(event){
 }
 
 function handlersave(){
+    document.querySelector(".save").removeEventListener('click',handlersave);
+    document.body.removeEventListener('keydown',handelrenter1)
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let firstpassword=document.getElementById("password1").value
     let secondpassword=document.getElementById("password2").value

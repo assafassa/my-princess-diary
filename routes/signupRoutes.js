@@ -6,9 +6,6 @@ const bcrypt=require('bcrypt')
 
 const router=express.Router();
 let randomverifycode
-let Currentusername
-let Currentemail
-let Currentpassword
 let trying=0
 let verifying=0
 router.get('/', (req,res)=>{
@@ -17,7 +14,7 @@ router.get('/', (req,res)=>{
 })
 
 router.post('/', (req, res) => {
-    let {username, email}= req.body;
+    let {username, email, action}= req.body;
     User.findOne({ $or: [
         { username: username },
         { email: email }
@@ -26,30 +23,17 @@ router.post('/', (req, res) => {
             let messegeback={}
             if (user){
                 messegeback.result='Username or mail exits.'
-                messegeback.username=user.username
-                res.json(messegeback); 
-            }else {
-                messegeback.result='Contuning to verify email.'
-                res.json(messegeback);  
-            }   
-        })
-        .catch((err)=>console.log(err))
-  
-});
-router.post('/forgotpassword', (req, res) => {
-    let {username, email}= req.body;
-    User.findOne({ $or: [
-        { username: username },
-        { email: email }
-      ]})
-        .then(user=>{
-            let messegeback={}
-            if (user){
-                messegeback.result='Username or mail exits.'
-                messegeback.username=user.username
+                if (action=='reset password'){
+                    messegeback.username=user.username
+                    messegeback.email=user.email
+                }
                 res.json(messegeback); 
             }else {
                 messegeback.result='Username or mail no exits.'
+                if (action=='create user'){
+                    messegeback.username=username
+                    messegeback.email=email
+                }
                 res.json(messegeback);  
             }   
         })
@@ -57,15 +41,13 @@ router.post('/forgotpassword', (req, res) => {
   
 });
 
+
 const messagebodycreate='To verify your email copy and past the following code in the intended field.'
 const messagebodyreset='To reset your password copy and past the following code in the intended field.'
     
 router.post('/verifymail',(req,res)=>{
     verifying=0
-    let {email,username,password, action}=req.body
-    Currentemail=email
-    Currentusername=username
-    Currentpassword=password
+    let {email,username, action}=req.body
     randomverifycode=Math.floor(Math.random()*1000000)
     let messagebody
     if (action=='create user'){
@@ -170,6 +152,8 @@ router.post('/verifymail',(req,res)=>{
     .then((info)=>{
         if(info.messageId){
             messegeback.result='messege sent'
+            messegeback.username=username
+            messegeback.email=email
             res.json(messegeback);
             trying=0
         }else{
@@ -182,33 +166,13 @@ router.post('/verifymail',(req,res)=>{
 })
 
 router.post('/checkcode',(req,res)=>{
-    let messegeback={}
-    let {verifycode,action}=req.body
+    let messegeback=req.body
+    let {verifycode}=req.body
     if(trying<3){
         if (verifycode==randomverifycode){
             verifying=1
-            if (action=='create user'){
-                bcrypt.hash(Currentpassword,13)
-                    .then((hashedpassword)=>{
-                        let newuser= new User({
-                            username:Currentusername,
-                            password:hashedpassword,
-                            email:Currentemail
-                    
-                        });
-                        newuser.save()
-                            .then((result)=>{
-                                messegeback.result='Varified, creating a User'
-                                res.json(messegeback);
-                            })
-                            .catch((err)=>console.log(err))
-                    })
-                    .catch((err)=>console.log(err))
-            }else if (action =='reset password'){
-                messegeback.result='Varified, create new password.'
-                res.json(messegeback);
-            }
-
+            messegeback.result='Varified, create password.'
+            res.json(messegeback);
         }else{
             messegeback.result='Not varified, try again'
             res.json(messegeback); 
@@ -220,56 +184,23 @@ router.post('/checkcode',(req,res)=>{
     }
 
 })
-/*
-router.post('/changepassword',(req,res)=>{
-    let messegeback={}
-    if (verifying==1){
-        let {username, password}=req.body
-        User.findOne({ username: username })
-            .then(user=>{
-                let name=user.username
-                let pass=user.password
-                let mail=user.email
-                let previous=user.previousmails
-                let check=0
-                previous.forEach((pas)=>{
-                    if (pas==password){
-                        messegeback.result='previous password.'
-                        res.json(messegeback)
-                        check=1
-                    } 
-                })
-                if (check==0){
-                    if (pass==password){
-                        messegeback.result='previous password.'
-                        res.json(messegeback)
-                    }else{
-                        User.findOneAndDelete({username: name})
-                        .then(data=>{
-                            previous.push(pass)
-                            let user= new User({
-                                username:name,
-                                password:password,
-                                email:mail,
-                                previousmails:previous
-                            })
-                            user.save()
-                                .then(data=>{
-                                    messegeback.result='new password saved'
-                                    res.json(messegeback)
-                                })
-                                .catch((err)=>console.log(err))
-                                
-                        } )
-                        .catch((err)=>console.log(err))
-                    } 
-                }
-            })
-            .catch((err)=>console.log(err))
-    }
-
+router.post('/createuser',async (req,res)=>{
+    let{username,email,password}=req.body
+    let hashedpassword= await bcrypt.hash(password,13)
+    let newuser= new User({
+        username:username,
+        password:hashedpassword,
+        email:email,
+    })
+    newuser.save()
+        .then((result)=>{
+            let messegeback={}
+            messegeback.result='Varified, creating a User'
+            ///////create token 
+            res.json(messegeback);
+        })
+        .catch((err)=>console.log(err))
 })
-*/
 
 router.post('/changepassword', async (req, res) => {
     try {

@@ -1,20 +1,18 @@
-import { signingup } from "./signingup.js"
+import { signingup, createpasswordpage } from "./signingup.js"
 import{changepasswordpage, resrtingpssword} from "./forgotpass.js"
 let username
-let password
 let email
 let action
 
 export function sendverifymail(data){
-    ({username,password,email,action}=data)
+    ({username,email,action}=data)
 
-    let dataToSend={username,password,email,action}
     fetch('/signup/verifymail',{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(dataToSend)
+        body: JSON.stringify(data)
     
     })
     .then((res)=>res.json())
@@ -29,7 +27,6 @@ export function sendverifymail(data){
                 signingup()
             }else if (action=='reset password'){
                 resrtingpssword()
-                /////here
             }
         }
     })
@@ -53,11 +50,8 @@ function verifypage(){
 }
 //const singup=document.querySelector(".signup");
 function veryfyingup(){
-    let verify=document.querySelector(".verify")
-    verify.removeEventListener('click',handlerverify);
-    document.body.removeEventListener('keydown',handelrenter)
     document.body.addEventListener('keydown',handelrenter)
-    verify.addEventListener('click',handlerverify);
+    document.querySelector(".verify").addEventListener('click',handlerverify);
 }
 function handelrenter(event){
     if(event.key==='Enter'){
@@ -65,10 +59,14 @@ function handelrenter(event){
     }
 }
 function handlerverify(){
+    document.querySelector(".verify").removeEventListener('click',handlerverify);
+    document.body.removeEventListener('keydown',handelrenter)
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let datatosend={}
     datatosend.verifycode=document.getElementById("verifycode").value
     datatosend.action=action
+    datatosend.email=email
+    datatosend.username=username
     fetch('/signup/checkcode',{
         method:'POST',
         headers: {
@@ -78,12 +76,12 @@ function handlerverify(){
     })
     .then((res)=>res.json())
     .then((newdata)=>{
-        if (newdata.result=='Varified, creating a User'){
-            document.querySelector(".messege").innerHTML='Varified, creating a User'
-            setTimeout(()=>{window.location.href='/'},3000);
-        }else if (newdata.result=='Varified, create new password.'){
-            changepasswordpage(username)
-            ////hereee
+         if (newdata.result=='Varified, create password.'){
+            if (newdata.action=='create user'){
+                createpasswordpage(username,email)
+            }else if(newdata.action){
+                changepasswordpage(username)
+            }
         }else if (newdata.result=='Not varified, try again'){
             document.querySelector(".messege").innerHTML='Not varified, try again'
             setTimeout(()=>{document.querySelector(".messege").innerHTML=''},2000);

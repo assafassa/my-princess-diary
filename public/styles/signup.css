@@ -62,7 +62,7 @@ body{
 }
 
 
-.signup,.verify{
+.signup,.verify,.save{
     
     background-color: rgb(133, 126, 195);
     color:rgb(234, 232, 252) ;
@@ -75,7 +75,7 @@ body{
     position: relative;
 
 }
-.signup:active,.verify:active{
+.signup:active,.verify:active,.save:active{
     background-color: rgb(234, 232, 252);
     color:rgb(133, 126, 195) ;
     border: none;
@@ -88,6 +88,9 @@ body{
 }
 .divederverify{
     margin-top: 50px;
+}
+.paragarphsend{
+    margin-top:50px;
 }
 .haveaccout{
     color: blueviolet;  

@@ -59,7 +59,7 @@ body{
     cursor:-webkit-grab;
     height: 22px;
 }
-.signup{
+.signup,.verify{
     
     background-color: rgb(133, 126, 195);
     color:rgb(234, 232, 252) ;
@@ -70,14 +70,11 @@ body{
     margin: 10px;
 
 }
-.verify{
-    background-color: rgb(133, 126, 195);
-    color:rgb(234, 232, 252) ;
+.signup:active,.verify:active{
+    background-color: rgb(234, 232, 252);
+    color:rgb(133, 126, 195) ;
     border: none;
-    font-family: cursive;
-    cursor: pointer;
-    width: 104px;
-    margin: 10px; 
+    
 }
 
 .yourmail{

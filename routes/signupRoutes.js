@@ -188,16 +188,20 @@ router.post('/checkcode',(req,res)=>{
         if (verifycode==randomverifycode){
             verifying=1
             if (action=='create user'){
-                let newuser= new User({
-                    username:Currentusername,
-                    password:Currentpassword,
-                    email:Currentemail
-            
-                });
-                newuser.save()
-                    .then((result)=>{
-                        messegeback.result='Varified, creating a User'
-                        res.json(messegeback);
+                bcrypt.hash(Currentpassword,13)
+                    .then((hashedpassword)=>{
+                        let newuser= new User({
+                            username:Currentusername,
+                            password:hashedpassword,
+                            email:Currentemail
+                    
+                        });
+                        newuser.save()
+                            .then((result)=>{
+                                messegeback.result='Varified, creating a User'
+                                res.json(messegeback);
+                            })
+                            .catch((err)=>console.log(err))
                     })
                     .catch((err)=>console.log(err))
             }else if (action =='reset password'){
@@ -216,7 +220,7 @@ router.post('/checkcode',(req,res)=>{
     }
 
 })
-
+/*
 router.post('/changepassword',(req,res)=>{
     let messegeback={}
     if (verifying==1){
@@ -265,4 +269,74 @@ router.post('/changepassword',(req,res)=>{
     }
 
 })
+*/
+
+router.post('/changepassword', async (req, res) => {
+    try {
+        let messegeback = {};
+        if (verifying == 1) {
+            console.log("start")
+            let { username, password } = req.body;
+            let user = await User.findOne({ username: username });
+
+            if (!user) {
+                // Handle the case where the user is not found
+                messegeback.result = 'User not found.';
+                res.json(messegeback);
+                return;
+            }
+
+            let name = user.username;
+            let pass = user.password;
+            let mail = user.email;
+            let previous = user.previousmails;
+
+            let check = 0;
+
+            for (let pas of previous) {
+                let isvalid = await bcrypt.compare(password, pas);
+                console.log('finish this')
+
+                if (isvalid) {
+                    messegeback.result = 'previous password.';
+                    res.json(messegeback);
+                    check = 1;
+                    break;
+                }
+            }
+
+            if (check === 0) {
+                console.log("afterlist")
+                let isvalid = await bcrypt.compare(password, pass);
+                console.log(isvalid)
+                if (isvalid) {
+                    messegeback.result = 'previous password.';
+                    res.json(messegeback);
+                } else {
+                    await User.findOneAndDelete({ username: name });
+
+                    previous.push(pass);
+                    console.log("hashing new password")
+                    let newhashedpass= await bcrypt.hash(password,13)
+                    let newUser = new User({
+                        username: name,
+                        password: newhashedpass,
+                        email: mail,
+                        previousmails: previous
+                    });
+
+                    await newUser.save();
+                    console.log("done")
+                    messegeback.result = 'new password saved';
+                    res.json(messegeback);
+                }
+            }
+        }
+    } catch (err) {
+        console.error(err);
+        // Handle other errors if needed
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 module.exports=router

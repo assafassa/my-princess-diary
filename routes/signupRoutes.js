@@ -3,11 +3,8 @@ const mongoose=require('mongoose');
 const User= require('../models/users');
 const nodemailer=require('nodemailer')
 const bcrypt=require('bcrypt')
-
+const secretkey='$2b$13$38lKPZYS2CxcEkZ3.GnNeu'
 const router=express.Router();
-let randomverifycode
-let trying=0
-let verifying=0
 router.get('/', (req,res)=>{
     res.render('signup')
 
@@ -45,10 +42,12 @@ router.post('/', (req, res) => {
 const messagebodycreate='To verify your email copy and past the following code in the intended field.'
 const messagebodyreset='To reset your password copy and past the following code in the intended field.'
     
-router.post('/verifymail',(req,res)=>{
+router.post('/verifymail',async (req,res)=>{
     verifying=0
     let {email,username, action}=req.body
-    randomverifycode=Math.floor(Math.random()*1000000)
+    let randomverifycode=(Math.floor(Math.random()*1000000)).toString()
+    let hashedverifycode=await bcrypt.hash((randomverifycode),13)
+    let premitivecookie=await bcrypt.hash((secretkey+'0'),13)
     let messagebody
     if (action=='create user'){
         messagebody=messagebodycreate
@@ -154,8 +153,10 @@ router.post('/verifymail',(req,res)=>{
             messegeback.result='messege sent'
             messegeback.username=username
             messegeback.email=email
+            messegeback.messageid=hashedverifycode
+            messegeback.premitivecookie=premitivecookie
             res.json(messegeback);
-            trying=0
+            
         }else{
             messegeback.result='messege not sent'
             res.json(messegeback);            
@@ -165,18 +166,32 @@ router.post('/verifymail',(req,res)=>{
 
 })
 
-router.post('/checkcode',(req,res)=>{
+router.post('/checkcode',async (req,res)=>{
     let messegeback=req.body
-    let {verifycode}=req.body
-    if(trying<3){
-        if (verifycode==randomverifycode){
-            verifying=1
+    let {verifycode,messageid,premitivecookie}=req.body
+    let is0=await bcrypt.compare(secretkey+'0',premitivecookie)
+    let is1=await bcrypt.compare(secretkey+'1',premitivecookie)
+    let is2=await bcrypt.compare(secretkey+'2',premitivecookie)
+    let is3=await bcrypt.compare(secretkey+'3',premitivecookie)
+    if (is0){
+        premitivecookie=await bcrypt.hash((secretkey+'1'),13)
+    }else if (is1){
+        premitivecookie=await bcrypt.hash((secretkey+'2'),13)
+    }else if (is2){
+        premitivecookie=await bcrypt.hash((secretkey+'3'),13)
+    }
+    messegeback.premitivecookie=premitivecookie
+    if(!is3){
+        let isvalid =await bcrypt.compare(verifycode,messageid)
+        if (isvalid){
+            let sucsesscode= await bcrypt.hash((secretkey+messegeback.username[2]+messageid[1]),13)
+            messegeback.premitivecookie=sucsesscode
             messegeback.result='Varified, create password.'
+            console.log(sucsesscode)
             res.json(messegeback);
         }else{
             messegeback.result='Not varified, try again'
             res.json(messegeback); 
-            trying+=1
         }
     }else{
         messegeback.result='failed 3 times. going back to singup'
@@ -185,28 +200,33 @@ router.post('/checkcode',(req,res)=>{
 
 })
 router.post('/createuser',async (req,res)=>{
-    let{username,email,password}=req.body
-    let hashedpassword= await bcrypt.hash(password,13)
-    let newuser= new User({
-        username:username,
-        password:hashedpassword,
-        email:email,
-    })
-    newuser.save()
-        .then((result)=>{
-            let messegeback={}
-            messegeback.result='Varified, creating a User'
-            ///////create token 
-            res.json(messegeback);
+    let{username,email,password,premitivecookie,messageid}=req.body
+    let veryfy= await bcrypt.compare((secretkey+username[2]+messageid[1]),premitivecookie)
+    if (veryfy){
+        let hashedpassword= await bcrypt.hash(password,13)
+        let newuser= new User({
+            username:username,
+            password:hashedpassword,
+            email:email,
         })
-        .catch((err)=>console.log(err))
+        newuser.save()
+            .then((result)=>{
+                let messegeback={}
+                messegeback.result='Varified, creating a User'
+                ///////create token 
+                res.json(messegeback);
+            })
+            .catch((err)=>console.log(err))
+    }
 })
 
 router.post('/changepassword', async (req, res) => {
+    let{username,password,premitivecookie,messageid}=req.body
+    let veryfy= await bcrypt.compare((secretkey+username[2]+messageid[1]),premitivecookie)
     try {
         let messegeback = {};
-        if (verifying == 1) {
-            let { username, password } = req.body;
+        if (veryfy) {
+            
             let user = await User.findOne({ username: username });
 
             if (!user) {

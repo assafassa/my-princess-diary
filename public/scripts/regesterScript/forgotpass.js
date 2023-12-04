@@ -3,6 +3,8 @@
 import { sendverifymail } from "./verify.js"
 import {isValidEmail} from "../calendarScript/utils.js"
 let Currentusername
+let premitivecookie
+let messageid
 
 
 //handelr to button to change html to input mail
@@ -74,12 +76,14 @@ function handlersend(){
 }
 
 
-export function changepasswordpage(username){
-    Currentusername=username
+export function changepasswordpage(data){
+    premitivecookie=data.premitivecookie
+    Currentusername=data.username
+    messageid=data.messageid
     document.querySelector(".head").innerHTML='Change Password'
     document.querySelector(".loginbox").innerHTML=
     `
-    <p class="yourmail">Hi ${username}</p>
+    <p class="yourmail">Hi ${Currentusername}</p>
     <p class="paragarphsend">Enter new password:</p>
     <input id="password1" class="js-input passwordinput" type="password">
     <p>Enter new password again:</p>
@@ -118,7 +122,9 @@ function handlersave(){
     }else{
         let dataToSend={
             username: Currentusername,
-            password:firstpassword
+            password:firstpassword,
+            premitivecookie,
+            messageid,
         }
         fetch('/signup/changepassword',{
             method:'POST',

@@ -3,7 +3,8 @@ import{changepasswordpage, resrtingpssword} from "./forgotpass.js"
 let username
 let email
 let action
-
+let messageid
+let premitivecookie
 export function sendverifymail(data){
     ({username,email,action}=data)
 
@@ -18,6 +19,8 @@ export function sendverifymail(data){
     .then((res)=>res.json())
     .then((newdata)=>{
         if (newdata.result=="messege sent"){
+            messageid=newdata.messageid
+            premitivecookie=newdata.premitivecookie
             document.querySelector(".messege").innerHTML="Message sent, look in your email."
             setTimeout(()=>{verifypage()},2000)
             
@@ -62,11 +65,14 @@ function handlerverify(){
     document.querySelector(".verify").removeEventListener('click',handlerverify);
     document.body.removeEventListener('keydown',handelrenter)
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
-    let datatosend={}
+    let datatosend={
+        action,
+        email,
+        username,
+        messageid,
+        premitivecookie
+    }
     datatosend.verifycode=document.getElementById("verifycode").value
-    datatosend.action=action
-    datatosend.email=email
-    datatosend.username=username
     fetch('/signup/checkcode',{
         method:'POST',
         headers: {
@@ -78,12 +84,13 @@ function handlerverify(){
     .then((newdata)=>{
          if (newdata.result=='Varified, create password.'){
             if (newdata.action=='create user'){
-                createpasswordpage(username,email)
+                createpasswordpage(newdata)
             }else if(newdata.action){
-                changepasswordpage(username)
+                changepasswordpage(newdata)
             }
         }else if (newdata.result=='Not varified, try again'){
             document.querySelector(".messege").innerHTML='Not varified, try again'
+            premitivecookie=newdata.premitivecookie
             setTimeout(()=>{document.querySelector(".messege").innerHTML=''},2000);
             veryfyingup()
 

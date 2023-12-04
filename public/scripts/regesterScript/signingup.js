@@ -5,6 +5,8 @@ import{sendverifymail}from './verify.js'
 
 let Currentusername
 let Currentemail
+let premitivecookie
+let messageid
 
 export function signingup(){
     let singup=document.querySelector(".signup");
@@ -61,13 +63,16 @@ function handlersign(){
     }
 }
 
-export function createpasswordpage(username,email){
-    Currentusername=username
-    Currentemail=email
+export function createpasswordpage(data){
+
+    Currentusername=data.username
+    Currentemail=data.email
+    premitivecookie=data.premitivecookie
+    messageid=data.messageid
     document.querySelector(".head").innerHTML='Create Password'
     document.querySelector(".loginbox").innerHTML=
     `
-    <p class="yourmail">Hi ${username}</p>
+    <p class="yourmail">Hi ${Currentusername}</p>
     <p class="paragarphsend">Enter password:</p>
     <input id="password1" class="js-input passwordinput" type="password">
     <p>Enter password again:</p>
@@ -107,7 +112,9 @@ function handlersave(){
         let dataToSend={
             username: Currentusername,
             password:firstpassword,
-            email:Currentemail
+            email:Currentemail,
+            premitivecookie,
+            messageid,
         }
         fetch('/signup/createuser',{
             method:'POST',

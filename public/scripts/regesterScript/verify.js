@@ -55,9 +55,15 @@ function verifypage(){
 function veryfyingup(){
     let verify=document.querySelector(".verify")
     verify.removeEventListener('click',handlerverify);
+    document.body.removeEventListener('keydown',handelrenter)
+    document.body.addEventListener('keydown',handelrenter)
     verify.addEventListener('click',handlerverify);
 }
-
+function handelrenter(event){
+    if(event.key==='Enter'){
+        handlerverify()
+    }
+}
 function handlerverify(){
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let datatosend={}

@@ -6,10 +6,16 @@ import{sendverifymail}from './verify.js'
 export function signingup(){
     let singup=document.querySelector(".signup");
     singup.removeEventListener('click',handlersign);
+    document.body.removeEventListener('keydown',handelrenter)
+    document.body.addEventListener('keydown',handelrenter)
     singup.addEventListener('click',handlersign);
 
 }
-
+function handelrenter(event){
+    if(event.key==='Enter'){
+        handlersign()
+    }
+}
 function handlersign(){
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let username=document.getElementById("username").value

@@ -28,7 +28,14 @@ export function forgotpasswordpage(){
 export function resrtingpssword(){
     let verify=document.querySelector(".send")
     verify.removeEventListener('click',handlersend);
+    document.body.removeEventListener('keydown',handelrenter)
+    document.body.addEventListener('keydown',handelrenter)
     verify.addEventListener('click',handlersend);
+}
+function handelrenter(event){
+    if(event.key==='Enter'){
+        handlersend()
+    }
 }
 
 function handlersend(){
@@ -90,7 +97,14 @@ export function changepasswordpage(username){
 function changingpssword(){
     let savebutton=document.querySelector(".save")
     savebutton.removeEventListener('click',handlersave);
+    document.body.removeEventListener('keydown',handelrenter1)
+    document.body.addEventListener('keydown',handelrenter1)
     savebutton.addEventListener('click',handlersave);
+}
+function handelrenter1(event){
+    if(event.key==='Enter'){
+        handlersave()
+    }
 }
 
 function handlersave(){

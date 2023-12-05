@@ -1,9 +1,24 @@
 
 import {forgotpasswordpage} from './regesterScript/forgotpass.js'
+import {retreevedata} from './calendarScript/cloud.js'
 
 
-document.querySelector(".login").addEventListener('click',()=>{
-    
+function handelrenter(event){
+    if(event.key==='Enter'){
+        handlerlogin()
+    }
+}
+
+function loginwebsite(){
+    document.querySelector(".login").addEventListener('click',handlerlogin)
+    document.body.addEventListener('keydown',handelrenter)
+
+}    
+
+function handlerlogin(){
+    document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
+    document.querySelector(".login").removeEventListener('click',handlerlogin)
+    document.body.removeEventListener('keydown',handelrenter)
     let username=document.getElementById("username").value
     let password=document.getElementById("password").value
     
@@ -26,36 +41,19 @@ document.querySelector(".login").addEventListener('click',()=>{
             dataToSend.username= data.username
             if (data.result=='login sucessful. Retrieving your data'){
                 document.querySelector(".messege").innerHTML=data.result
-                fetch('/events/retrieveevent',{
-                    method:'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToSend)
-                })
-                .then(response => response.json())
-                .then(data=>{
-                    let {Events}=data
-                    localStorage.setItem('myEvents', JSON.stringify(Events));
-                    
-                    window.location.href='/my-princess-diary'
-
-                    
-
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                retreevedata(dataToSend)
             }else {
-            document.querySelector(".messege").innerHTML=data.result
+                document.querySelector(".messege").innerHTML=data.result
+                setTimeout(()=>{document.querySelector(".messege").innerHTML=''},3000)
+                loginwebsite()
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
-        }
+    }
     
-});
+}
 
 document.querySelector('.signup').addEventListener('click',()=>{
     window.location.href='/signup'
@@ -64,3 +62,4 @@ document.querySelector('.signup').addEventListener('click',()=>{
 document.querySelector(".forgotpassword").addEventListener('click',()=>{
     forgotpasswordpage()
 })
+loginwebsite()

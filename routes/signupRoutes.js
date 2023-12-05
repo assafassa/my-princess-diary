@@ -5,11 +5,18 @@ const nodemailer=require('nodemailer')
 const bcrypt=require('bcrypt')
 const secretkey='$2b$13$38lKPZYS2CxcEkZ3.GnNeu'
 const router=express.Router();
+const cookieParser=require('cookie-parser');
+const jwt=require('jsonwebtoken');
 router.get('/', (req,res)=>{
     res.render('signup')
 
 })
-
+const maxAge=24*60*60
+function createtoken(id){
+    return jwt.sign({id},secretkey,{
+        expiresIn: maxAge
+    });
+}
 router.post('/', (req, res) => {
     let {username, email, action}= req.body;
     User.findOne({ $or: [
@@ -210,6 +217,8 @@ router.post('/createuser',async (req,res)=>{
                 let messegeback={}
                 messegeback.result='Varified, creating a User'
                 ///////create token 
+                let token= createtoken(newuser._id)
+                res.cookie('jwt',token,{httpOnly:true, maxAge:maxAge*1000})
                 res.json(messegeback);
             })
             .catch((err)=>console.log(err))

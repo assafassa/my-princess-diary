@@ -1,41 +1,50 @@
 const express=require('express')
 const {createeventSchema}=require('../models/eventsmongo')
 const mongoose=require('mongoose');
-
+const {requireAuth}=require('../middleware/authmiddleware');
+const User= require('../models/users');
 const router=express.Router();
-let Currentusername=''
-let CurrntEvent
-router.post('/retrieveevent', (req, res) => {
-  const {username, password}= req.body;
+
+async function getevents(req){
+  let userid=req.decodedToken.id
+  let user=await User.findOne({_id:userid})
+  let username=user.username
   //upload events
-  let {Event}= createeventSchema(username);
-  Currentusername=username
-  CurrntEvent=Event
+  let {Event}= await createeventSchema(username);
+  return(Event)
+}
+
+router.post('/retrieveevent',requireAuth, async (req, res) => {
+  let Event=await getevents(req)
   Event.find()
-      .then (Events=>{res.json({Events});})
+      .then (Events=>{
+        res.json({Events});})
       .catch(err => console.log(err));
 
 });
 
-router.get('/getusername', (req, res) => {
-  res.json({Currentusername})
+router.get('/getusername',requireAuth, async(req, res) => {
+  let userid=req.decodedToken.id
+  let user=await User.findOne({_id:userid})
+  let username=user.username
+  res.json({username})
 
 });
 
-router.delete('/logoutfromuser', (req, res) => {
-  Currentusername=''
-  CurrntEvent=null
-  res.json()
+router.delete('/logoutfromuser',requireAuth, (req, res) => {
+  res.cookie('jwt','',{maxAge:1})
+  res.redirect('/');
 });
 
-router.post('/updatedata',(req,res)=>{
+router.post('/updatedata',requireAuth,async (req,res)=>{
+  let Event=await getevents(req)
   const {changes}=req.body;
   changes.forEach(change => {
     let changeid=change[1].Id
-    CurrntEvent.findOneAndDelete({Id: changeid})
+    Event.findOneAndDelete({Id: changeid})
       .then(data=>{
         if (change[0]!='DELETE'){
-          let event= new CurrntEvent(change[1])
+          let event= new Event(change[1])
           event.save()
             .catch((err)=>console.log(err))
         }

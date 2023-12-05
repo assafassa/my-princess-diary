@@ -1,4 +1,4 @@
-
+const secretkey='$2b$13$38lKPZYS2CxcEkZ3.GnNeu'
 const express=require('express');
 const mongoose=require('mongoose');
 const app =express();
@@ -9,6 +9,17 @@ const signupRoutes=require('./routes/signupRoutes');
 const nodemailer=require('nodemailer')
 const bcrypt=require('bcrypt')
 const dbURI= 'mongodb+srv://lali:123456test@calendar.zjkhx2y.mongodb.net/calenderdb?retryWrites=true&w=majority';
+const cookieParser=require('cookie-parser');
+const jwt=require('jsonwebtoken');
+const {requireAuth}=require('./middleware/authmiddleware');
+app.use(cookieParser());
+
+const maxAge=24*60*60
+function createtoken(id){
+    return jwt.sign({id},secretkey,{
+        expiresIn: maxAge
+    });
+}
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => app.listen(3000))
@@ -23,7 +34,7 @@ app.get('/', (req,res)=>{
 
 })
 
-app.get('/my-princess-diary', (req,res)=>{
+app.get('/my-princess-diary', requireAuth,(req,res)=>{
     res.render('calendar')
 
 })
@@ -41,6 +52,9 @@ app.post('/trytologin', async (req, res) => {
             if (user){
                 let isvalid = await bcrypt.compare(password, user.password);
                 if (isvalid) {
+                ///////create token 
+                let token= createtoken(user._id)
+                res.cookie('jwt',token,{httpOnly:true, maxAge:maxAge*1000})
                 messegeback.result='login sucessful. Retrieving your data'
                 messegeback.username=user.username
                 }else if (!isvalid){

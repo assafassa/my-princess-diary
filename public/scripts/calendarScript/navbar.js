@@ -1,5 +1,4 @@
-import {monthformat} from '../calendar.js'
-import { Currentusername } from '../regester.js';
+import {monthformat,Currentusername} from '../calendar.js'
 
 //nav-bar
 

@@ -212,7 +212,7 @@ function getusername(){
     })
     .then(response => response.json())
     .then((data)=>{
-        Currentusername=data.Currentusername
+        Currentusername=data.username
         renderNavBar()
         renderWebsite ()
         renderInputWindow()

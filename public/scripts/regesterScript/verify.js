@@ -91,6 +91,7 @@ function handlerverify(){
         }else if (newdata.result=='Not varified, try again'){
             document.querySelector(".messege").innerHTML='Not varified, try again'
             premitivecookie=newdata.premitivecookie
+            messageid=newdata.messageid
             setTimeout(()=>{document.querySelector(".messege").innerHTML=''},2000);
             veryfyingup()
 

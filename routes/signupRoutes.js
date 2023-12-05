@@ -47,7 +47,6 @@ router.post('/verifymail',async (req,res)=>{
     let {email,username, action}=req.body
     let randomverifycode=(Math.floor(Math.random()*1000000)).toString()
     let hashedverifycode=await bcrypt.hash((randomverifycode),13)
-    let premitivecookie=await bcrypt.hash((secretkey+'0'),13)
     let messagebody
     if (action=='create user'){
         messagebody=messagebodycreate
@@ -148,12 +147,14 @@ router.post('/verifymail',async (req,res)=>{
         subject:'Verification Code for My Princess Diary',
         html:mailhtml,
     })
-    .then((info)=>{
+    .then(async (info)=>{
         if(info.messageId){
+            
             messegeback.result='messege sent'
             messegeback.username=username
             messegeback.email=email
             messegeback.messageid=hashedverifycode
+            let premitivecookie=await bcrypt.hash((secretkey+'0'+username[0]+hashedverifycode[12]),13)
             messegeback.premitivecookie=premitivecookie
             res.json(messegeback);
             
@@ -168,32 +169,27 @@ router.post('/verifymail',async (req,res)=>{
 
 router.post('/checkcode',async (req,res)=>{
     let messegeback=req.body
-    let {verifycode,messageid,premitivecookie}=req.body
-    let is0=await bcrypt.compare(secretkey+'0',premitivecookie)
-    let is1=await bcrypt.compare(secretkey+'1',premitivecookie)
-    let is2=await bcrypt.compare(secretkey+'2',premitivecookie)
-    let is3=await bcrypt.compare(secretkey+'3',premitivecookie)
+    let {verifycode,messageid,premitivecookie,username}=req.body
+    let is0=await bcrypt.compare(secretkey+'0'+username[0]+messageid[12],premitivecookie)
+    let is1=await bcrypt.compare(secretkey+'1'+username[1]+messageid[12],premitivecookie)
+    let is2=await bcrypt.compare(secretkey+'2'+username[2]+messageid[12],premitivecookie)
     if (is0){
-        premitivecookie=await bcrypt.hash((secretkey+'1'),13)
+        premitivecookie=await bcrypt.hash((secretkey+'1'+username[1]+messageid[12]),13)
     }else if (is1){
-        premitivecookie=await bcrypt.hash((secretkey+'2'),13)
-    }else if (is2){
-        premitivecookie=await bcrypt.hash((secretkey+'3'),13)
+        premitivecookie=await bcrypt.hash((secretkey+'2'+username[2]+messageid[12]),13)
     }
     messegeback.premitivecookie=premitivecookie
-    if(!is3){
-        let isvalid =await bcrypt.compare(verifycode,messageid)
-        if (isvalid){
-            let sucsesscode= await bcrypt.hash((secretkey+messegeback.username[2]+messageid[1]),13)
-            messegeback.premitivecookie=sucsesscode
-            messegeback.result='Varified, create password.'
-            console.log(sucsesscode)
-            res.json(messegeback);
-        }else{
-            messegeback.result='Not varified, try again'
-            res.json(messegeback); 
-        }
-    }else{
+    
+    let isvalid =await bcrypt.compare(verifycode,messageid)
+    if (isvalid){
+        let sucsesscode= await bcrypt.hash((secretkey+username[2]+messageid[1]),13)
+        messegeback.premitivecookie=sucsesscode
+        messegeback.result='Varified, create password.'
+        res.json(messegeback);
+    }else if (!is2){
+        messegeback.result='Not varified, try again'
+        res.json(messegeback); 
+    }else if (is2){
         messegeback.result='failed 3 times. going back to singup'
         res.json(messegeback); 
     }

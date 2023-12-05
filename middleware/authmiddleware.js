@@ -1,6 +1,6 @@
 const cookieParser = require('cookie-parser');
 const jwt=require('jsonwebtoken');
-const secretkey='$2b$13$38lKPZYS2CxcEkZ3.GnNeu'
+const secretkey='sKt408oGhEDVcX/su8oRkehvMoUkXvFtkkcvJdoNpqKO9ycQ.h0vIKA2s5QF0AVWUe'
 
 const requireAuth =(req,res,next)=>{
     const token=req.cookies.jwt;

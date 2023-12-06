@@ -1,5 +1,6 @@
 
-export function retreevedata(dataToSend){
+export function retreevedata(){
+    let dataToSend={}
     fetch('/events/retrieveevent',{
         method:'POST',
         headers: {

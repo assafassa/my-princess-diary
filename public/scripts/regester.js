@@ -41,7 +41,7 @@ function handlerlogin(){
             dataToSend.username= data.username
             if (data.result=='login sucessful. Retrieving your data'){
                 document.querySelector(".messege").innerHTML=data.result
-                retreevedata(dataToSend)
+                retreevedata()
             }else {
                 document.querySelector(".messege").innerHTML=data.result
                 setTimeout(()=>{document.querySelector(".messege").innerHTML=''},3000)

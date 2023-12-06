@@ -2,6 +2,7 @@
 
 import {isValidEmail} from '../calendarScript/utils.js';
 import{sendverifymail}from './verify.js'
+import{retreevedata} from '../calendarScript/cloud.js'
 
 let Currentusername
 let Currentemail
@@ -126,7 +127,8 @@ function handlersave(){
         .then((res)=>res.json())
         .then((newdata)=>{
             document.querySelector(".messege").innerHTML='created a user.'
-            setTimeout(()=>{window.location.href='/'},2000);
+            retreevedata()
+            setTimeout(()=>{window.location.href='/my-princess-diary'},2000);
         })
         .catch((e)=>console.log(e))
     }    

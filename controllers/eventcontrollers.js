@@ -33,7 +33,7 @@ module.exports.getusername_get= async(req, res) => {
 
 module.exports.logoutfromuser_delete= (req, res) => {
     res.cookie('jwt','',{maxAge:1})
-    res.redirect('/');
+    res.json()
 }
 
 module.exports.updatedata_post=async (req,res)=>{

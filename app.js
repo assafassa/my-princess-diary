@@ -38,3 +38,6 @@ app.post('/trytologin',authController.trytologin_post);
 app.use('/signup',signupRoutes);
 app.use('/events',eventsRoutes);
 
+app.use(requireAuth,(req,res)=>{
+    res.redirect('/my-princess-diary')
+})

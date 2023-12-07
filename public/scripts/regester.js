@@ -38,7 +38,6 @@ function handlerlogin(){
         .then(response => response.json())
         .then(data => {
             // Handle the response 
-            dataToSend.username= data.username
             if (data.result=='login sucessful. Retrieving your data'){
                 document.querySelector(".messege").innerHTML=data.result
                 retreevedata()

@@ -11,7 +11,7 @@ let messageid
 
 export function signingup(){
     document.body.addEventListener('keydown',handelrenter)
-    singup.addEventListener('click',handlersign);
+    document.querySelector(".signup").addEventListener('click',handlersign);
 
 }
 function handelrenter(event){
@@ -20,7 +20,7 @@ function handelrenter(event){
     }
 }
 function handlersign(){
-    singup.removeEventListener('click',handlersign);
+    document.querySelector(".signup").removeEventListener('click',handlersign);
     document.body.removeEventListener('keydown',handelrenter)
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let username=document.getElementById("username").value

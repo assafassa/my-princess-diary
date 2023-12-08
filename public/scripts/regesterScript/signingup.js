@@ -10,9 +10,6 @@ let premitivecookie
 let messageid
 
 export function signingup(){
-    let singup=document.querySelector(".signup");
-    singup.removeEventListener('click',handlersign);
-    document.body.removeEventListener('keydown',handelrenter)
     document.body.addEventListener('keydown',handelrenter)
     singup.addEventListener('click',handlersign);
 
@@ -23,6 +20,8 @@ function handelrenter(event){
     }
 }
 function handlersign(){
+    singup.removeEventListener('click',handlersign);
+    document.body.removeEventListener('keydown',handelrenter)
     document.querySelector(".messege").innerHTML=`<img class="loadinggiffpug" src="../images/loadinggiff/Xqg8.gif" ><img class="loadinggiff" src="../images/loadinggiff/WMDx.gif" >`
     let username=document.getElementById("username").value
     let email=document.getElementById("email").value

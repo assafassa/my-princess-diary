@@ -152,6 +152,15 @@ function renderWebsite (){
 
     //logout
     document.querySelector(".logout").addEventListener('click',logout)
+
+    window.addEventListener('scroll', function () {
+        // Check if the scroll position is below the specified distance
+        if (window.scrollY >= distanceFromTop) {
+            fixedSidebar.classList.add('fixed');
+        } else {
+            fixedSidebar.classList.remove('fixed');
+        }
+    });
     
 }
 
@@ -162,19 +171,21 @@ export function renderInputWindow(){
     
     document.querySelector(".event-window").innerHTML=
         `
-        Add New Event:
-        <input id="date" class="js-input date-input" type="date" >
-        start time
-        <input id="hourStart" class="js-input start-time-input" type="text" placeholder="00:00">
-        <input id="howLongminutes" class="js-input minutes-input" type="number" placeholder="minutes long">
-        <textarea id="name" class="js-input name-input" id="myTextArea" rows="1" cols="1" placeholder="the name of event"></textarea>
-        <textarea id="withWhom" class="js-input with-input" id="myTextArea" rows="1" cols="1" placeholder="with Whom"></textarea>
-        remind days before:
-        <input id="reminddaybefore" class="js-input days-input" type="number" placeholder="number">
-        repeat in
-        <textarea id="repeatList" class="js-input days-input" id="myTextArea" rows="1" cols="1" placeholder="0, day"></textarea>
-        <button class="update-event-button">Submit</button>
-        <div class="if-missing"></div>
+        <div class="flowbar">
+            Add New Event:
+            <input id="date" class="js-input date-input" type="date" >
+            start time
+            <input id="hourStart" class="js-input start-time-input" type="text" placeholder="00:00">
+            <input id="howLongminutes" class="js-input minutes-input" type="number" placeholder="minutes long">
+            <textarea id="name" class="js-input name-input" id="myTextArea" rows="1" cols="1" placeholder="the name of event"></textarea>
+            <textarea id="withWhom" class="js-input with-input" id="myTextArea" rows="1" cols="1" placeholder="with Whom"></textarea>
+            remind days before:
+            <input id="reminddaybefore" class="js-input days-input" type="number" placeholder="number">
+            repeat in
+            <textarea id="repeatList" class="js-input days-input" id="myTextArea" rows="1" cols="1" placeholder="0, day"></textarea>
+            <button class="update-event-button">Submit</button>
+            <div class="if-missing"></div>
+        </div>
         `
     document.querySelector(".update-event-button").addEventListener('click',(handlerUpdateButton))
 }

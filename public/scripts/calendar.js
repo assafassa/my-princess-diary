@@ -154,15 +154,14 @@ function renderWebsite (){
     document.querySelector(".logout").addEventListener('click',logout)
     
     //scroll
-        var fixedSidebar = document.querySelector(".flowbar");
-        var distanceFromTop = 170; // Set the distance from the top to fix the sidebar
+        const distanceFromTop = 170; // Set the distance from the top to fix the sidebar
 
     window.addEventListener('scroll', function () {
         // Check if the scroll position is below the specified distance
         if (window.scrollY >= distanceFromTop) {
-            fixedSidebar.classList.add('fixed');
+            document.querySelector(".flowbar").classList.add('fixed');
         } else {
-            fixedSidebar.classList.remove('fixed');
+            document.querySelector(".flowbar").classList.remove('fixed');
         }
     });
     

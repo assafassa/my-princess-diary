@@ -96,11 +96,21 @@ body{
     align-self: center;
 }
 .event-window{
+    display: flex;
+    transition: top 0.3s ease;
+}
+.flowbar{
+    height:450px;
     display: grid;
     width: 130px;
     padding: 10px;
     font-weight: bold;
     color:rgb(79, 73, 135);
+}
+.fixed{ 
+    position: fixed;
+    overflow-y: auto;
+    margin-top: -170px;
 }
 .js-input{
     width: 100px;

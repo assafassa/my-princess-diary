@@ -1,4 +1,4 @@
-# 📅 My Princess Diary (2023)
+# 🌸📅🌸 My Princess Diary (2023)
 
 Welcome to **My Princess Diary**, a delightful calendar web application designed to help users organize their lives with a touch of elegance. Built with **Node.js** and **Express**, this application features essential user functionalities and secure data handling.
 
@@ -48,15 +48,6 @@ Welcome to **My Princess Diary**, a delightful calendar web application designed
 
 ✨ Explore the live demo of **My Princess Diary** [**here**](https://my-princess-diary-1.onrender.com/) and start managing your calendar in style!
 
----
-
-## 🌸 A Touch of Magic
-
-<p align="center">
-  <img src="https://img.icons8.com/color/50/FF69B4/calendar.png" alt="Calendar Icon" />
-  <img src="https://img.icons8.com/color/50/DA70D6/sparkles.png" alt="Sparkles Icon" />
-  <img src="https://img.icons8.com/color/50/FFB6C1/heart.png" alt="Heart Icon" />
-</p>
 
 ---
 

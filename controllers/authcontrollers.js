@@ -313,3 +313,12 @@ module.exports.trytologin_post= async (req, res) => {
         .catch((err)=>console.log(err))
   
 }
+
+module.exports.autorobot = async (req, res) => {  
+    // Set any custom headers here, if needed
+    console.log("thanks robot")
+    res.set('thanks', 'robot');
+    
+    // End the response without sending a body (as expected for a HEAD request)
+    res.status(200).end(); 
+};

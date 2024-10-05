@@ -21,7 +21,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-
+app.head('/robot',authController.autorobot);
 app.get('/', (req,res)=>{
     res.render('regester')
 
